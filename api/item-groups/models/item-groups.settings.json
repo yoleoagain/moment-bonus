@@ -1,0 +1,17 @@
+{
+  "kind": "collectionType",
+  "collectionName": "item_groups",
+  "info": {
+    "name": "item-groups"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}

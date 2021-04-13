@@ -1,0 +1,10 @@
+mutation addItem($name: String!, $description: String) {
+  createItem(
+    input: { data: { name: $name, description: $description } }
+  ) {
+    item {
+      name
+      description
+    }
+  }
+}

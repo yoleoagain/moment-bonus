@@ -1,142 +1,101 @@
-import resolve from "@rollup/plugin-node-resolve";
-import replace from "@rollup/plugin-replace";
-import commonjs from "@rollup/plugin-commonjs";
-import json from "@rollup/plugin-json";
-import typescript from "@rollup/plugin-typescript";
 import svelte from "rollup-plugin-svelte";
-import babel from "@rollup/plugin-babel";
+import resolve from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
+import livereload from "rollup-plugin-livereload";
 import { terser } from "rollup-plugin-terser";
-import config from "sapper/config/rollup";
-import pkg from "./package.json";
+import sveltePreprocess from "svelte-preprocess";
+import typescript from "@rollup/plugin-typescript";
+import replace from 'rollup-plugin-replace';
+import path from "path";
 
-const { createPreprocessors } = require("./svelte.config.js");
+const production = !process.env.ROLLUP_WATCH;
 
-const mode = process.env.NODE_ENV;
-const dev = mode === "development";
-const sourcemap = dev ? "inline" : false;
-const legacy = !!process.env.SAPPER_LEGACY_BUILD;
+function serve() {
+  let server;
 
-const preprocess = createPreprocessors({ sourceMap: !!sourcemap });
+  function toExit() {
+    if (server) server.kill(0);
+  }
 
-const warningIsIgnored = (warning) => warning.message.includes(
-	"Use of eval is strongly discouraged, as it poses security risks and may cause issues with minification",
-) || warning.message.includes("Circular dependency: node_modules");
+  return {
+    writeBundle() {
+      if (server) return;
+      server = require("child_process").spawn(
+        "npm",
+        ["run", "start", "--", "--dev"],
+        {
+          stdio: ["ignore", "inherit", "inherit"],
+          shell: true,
+        }
+      );
 
-// Workaround for https://github.com/sveltejs/sapper/issues/1266
-const onwarn = (warning, _onwarn) => (warning.code === "CIRCULAR_DEPENDENCY" && /[/\\]@sapper[/\\]/.test(warning.message)) || warningIsIgnored(warning) || console.warn(warning.toString());
+      process.on("SIGTERM", toExit);
+      process.on("exit", toExit);
+    },
+  };
+}
 
 export default {
-	client: {
-		input: config.client.input().replace(/\.js$/, ".ts"),
-		output: { ...config.client.output(), sourcemap },
-		plugins: [
-			replace({
-				"process.browser": true,
-				"process.env.NODE_ENV": JSON.stringify(mode),
-			}),
-			svelte({
-				compilerOptions: {
-					dev,
-					hydratable: true,
-				},
-				emitCss: true,
-				preprocess,
-			}),
-			resolve({
-				browser: true,
-				dedupe: ["svelte"],
-			}),
-			commonjs({
-				sourceMap: !!sourcemap,
-			}),
-			typescript({
-				noEmitOnError: !dev,
-				sourceMap: !!sourcemap,
-			}),
-			json(),
+  input: "src/main.ts",
+  output: {
+    sourcemap: true,
+    format: "iife",
+    name: "app",
+    file: "public/build/bundle.js",
+  },
+  plugins: [
+    
+    svelte({
+      // enable run-time checks when not in production
+      dev: !production,
+      // we'll extract any component CSS out into
+      // a separate file - better for performance
+      css: (css) => {
+        css.write("bundle.css");
+      },
+      preprocess: sveltePreprocess(),
+    }),
+    {
+      // needed to specifically use the browser bundle for subscriptions-transport-ws
+      name: "use-browser-for-subscriptions-transport-ws",
+      resolveId(id) {
+        if (id === "subscriptions-transport-ws")
+          return path.resolve(
+            "node_modules/subscriptions-transport-ws/dist/client.js"
+          );
+      },
+    },
+    // If you have external dependencies installed from
+    // npm, you'll most likely need these plugins. In
+    // some cases you'll need additional configuration -
+    // consult the documentation for details:
+    // https://github.com/rollup/plugins/tree/master/packages/commonjs
+    resolve({
+      browser: true,
+      dedupe: ["svelte"],
+    }),
+    commonjs(),
+    typescript({
+      sourceMap: !production,
+      inlineSources: !production,
+    }),
 
-			legacy && babel({
-				extensions: [".js", ".mjs", ".html", ".svelte"],
-				babelHelpers: "runtime",
-				exclude: ["node_modules/@babel/**"],
-				presets: [
-					["@babel/preset-env", {
-						targets: "> 0.25%, not dead",
-					}],
-				],
-				plugins: [
-					"@babel/plugin-syntax-dynamic-import",
-					["@babel/plugin-transform-runtime", {
-						useESModules: true,
-					}],
-				],
-			}),
+    // In dev mode, call `npm run start` once
+    // the bundle has been generated
+    !production && serve(),
 
-			!dev && terser({
-				module: true,
-			}),
-		],
+    // Watch the `public` directory and refresh the
+    // browser on changes when not in production
+    !production && livereload("public"),
 
-		preserveEntrySignatures: false,
-		onwarn,
-	},
-
-	server: {
-		input: { server: config.server.input().server.replace(/\.js$/, ".ts") },
-		output: { ...config.server.output(), sourcemap },
-		plugins: [
-			replace({
-				"process.browser": false,
-				"process.env.NODE_ENV": JSON.stringify(mode),
-				"module.require": "require",
-			}),
-			svelte({
-				compilerOptions: {
-					dev,
-					generate: "ssr",
-				},
-				preprocess,
-			}),
-			resolve({
-				dedupe: ["svelte"],
-			}),
-			commonjs({
-				sourceMap: !!sourcemap,
-			}),
-			typescript({
-				noEmitOnError: !dev,
-				sourceMap: !!sourcemap,
-			}),
-			json(),
-		],
-		external: Object.keys(pkg.dependencies).concat(
-			require("module").builtinModules || Object.keys(process.binding("natives")), // eslint-disable-line global-require
-		),
-
-		preserveEntrySignatures: "strict",
-		onwarn,
-	},
-
-	serviceworker: {
-		input: config.serviceworker.input().replace(/\.js$/, ".ts"),
-		output: { ...config.serviceworker.output(), sourcemap },
-		plugins: [
-			resolve(),
-			replace({
-				"process.browser": true,
-				"process.env.NODE_ENV": JSON.stringify(mode),
-			}),
-			commonjs({
-				sourceMap: !!sourcemap,
-			}),
-			typescript({
-				noEmitOnError: !dev,
-				sourceMap: !!sourcemap,
-			}),
-			!dev && terser(),
-		],
-
-		preserveEntrySignatures: false,
-		onwarn,
-	},
+    // If we're building for production (npm run build
+    // instead of npm run dev), minify
+    production && terser(),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify( 'development' )
+    })
+  ],
+  watch: {
+    clearScreen: false,
+  },
 };
