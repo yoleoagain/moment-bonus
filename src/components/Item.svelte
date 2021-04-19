@@ -1,6 +1,14 @@
 <script>
+    import { GetItems, addItem, deleteItem } from 'src/codegen';
+
     export let name;
     export let description;
+    export let id;
+
+    function remove(){
+        deleteItem({ variables: { id } })
+    }
+
 </script>
 <style>
     .item{
@@ -23,5 +31,8 @@
     <span class='desc'>
         {description}
     </span>
-    <button>Удалить</button>
+    <span class="desc">
+        {id}
+    </span>
+    <button on:click={remove}>Удалить</button>
 </div>

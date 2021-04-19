@@ -1,0 +1,10 @@
+mutation deleteItem($id: ID!) {
+  deleteItem(
+    input: { where: { id: $id } }
+  ) {
+    item {
+      name
+      description
+    }
+  }
+}

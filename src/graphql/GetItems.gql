@@ -1,6 +1,8 @@
 query GetItems {
-  items {
+  items{
+    id
     name
     description
+    created_at
   }
 }

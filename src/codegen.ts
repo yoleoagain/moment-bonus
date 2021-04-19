@@ -1287,6 +1287,22 @@ export type AddItemMutation = (
   )> }
 );
 
+export type DeleteItemMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteItemMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteItem?: Maybe<(
+    { __typename?: 'deleteItemPayload' }
+    & { item?: Maybe<(
+      { __typename?: 'Items' }
+      & Pick<Items, 'name' | 'description'>
+    )> }
+  )> }
+);
+
 export type GetItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1294,7 +1310,7 @@ export type GetItemsQuery = (
   { __typename?: 'Query' }
   & { items?: Maybe<Array<Maybe<(
     { __typename?: 'Items' }
-    & Pick<Items, 'name' | 'description'>
+    & Pick<Items, 'id' | 'name' | 'description' | 'created_at'>
   )>>> }
 );
 
@@ -1309,11 +1325,23 @@ export const AddItemDoc = gql`
   }
 }
     `;
+export const DeleteItemDoc = gql`
+    mutation deleteItem($id: ID!) {
+  deleteItem(input: {where: {id: $id}}) {
+    item {
+      name
+      description
+    }
+  }
+}
+    `;
 export const GetItemsDoc = gql`
     query GetItems {
   items {
+    id
     name
     description
+    created_at
   }
 }
     `;
@@ -1325,6 +1353,18 @@ export const addItem = (
           ) => {
             const m = client.mutate<AddItemMutation, AddItemMutationVariables>({
               mutation: AddItemDoc,
+              ...options,
+            });
+            return m;
+          }
+export const deleteItem = (
+            options: Omit<
+              MutationOptions<any, DeleteItemMutationVariables>, 
+              "mutation"
+            >
+          ) => {
+            const m = client.mutate<DeleteItemMutation, DeleteItemMutationVariables>({
+              mutation: DeleteItemDoc,
               ...options,
             });
             return m;
