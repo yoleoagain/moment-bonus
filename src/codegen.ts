@@ -1303,7 +1303,10 @@ export type DeleteItemMutation = (
   )> }
 );
 
-export type GetItemsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetItemsQueryVariables = Exact<{
+  sort?: Maybe<Scalars['String']>;
+  search: Scalars['String'];
+}>;
 
 
 export type GetItemsQuery = (
@@ -1336,8 +1339,8 @@ export const DeleteItemDoc = gql`
 }
     `;
 export const GetItemsDoc = gql`
-    query GetItems {
-  items {
+    query GetItems($sort: String, $search: String!) {
+  items(sort: $sort, where: {name_contains: $search}) {
     id
     name
     description

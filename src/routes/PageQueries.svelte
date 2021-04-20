@@ -1,25 +1,40 @@
 <script lang="ts">
   import { fade } from 'svelte/transition';
-  import { GetItems, addItem, deleteItem } from 'src/codegen';
+  import { GetItems, GetItemsDoc, addItem, deleteItem } from 'src/codegen';
   import { Wave } from 'svelte-loading-spinners';
   import { debug } from 'svelte/internal';
   import Item from '../components/Item.svelte'
 
+  export let search = ''
   export let name = ''
   export let description = ''
   export let loadingNewItem = false
   
-  $: query = GetItems({});
+  const refetchQueries = [{ query: GetItemsDoc, variables: { sort: 'created_at:DESC', search } }]
+  $: query = GetItems({
+    variables: {
+      sort: 'created_at:DESC',
+      search
+    }
+  });
 
   function itemPlus(){
     loadingNewItem = true
     addItem({
+      refetchQueries,
       variables: { name, description }
     })
       .then(e => { 
         loadingNewItem = false
       })
       .catch(e => { loadingNewItem = false })
+  }
+
+  const dropItem = (id) => {
+    deleteItem({
+      refetchQueries,
+      variables: { id }
+    })
   }
 </script>
 
@@ -47,6 +62,7 @@
   <div class="card">
     <h2>Items</h2>
     <div class="column">
+      <input placeholder='Search' bind:value={search} />
       <input bind:value={name} />
       <textarea disabled={loadingNewItem} bind:value={description} />
       <button on:click={itemPlus}>
@@ -62,7 +78,8 @@
     {/if}
     {#each $query.data?.items || [] as item}
       <span>{item.created_at}</span>
-      <Item 
+      <Item
+        deleteItem={dropItem}
         name={item.name}
         description={item.description}
         id={item.id}

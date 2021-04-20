@@ -1,5 +1,8 @@
-query GetItems {
-  items{
+query GetItems($sort: String, $search: String!) {
+  items(
+    sort: $sort
+    where: { name_contains: $search }
+  ) {
     id
     name
     description

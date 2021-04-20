@@ -1,12 +1,11 @@
 <script>
-    import { GetItems, addItem, deleteItem } from 'src/codegen';
-
     export let name;
     export let description;
     export let id;
+    export let deleteItem;
 
     function remove(){
-        deleteItem({ variables: { id } })
+        deleteItem(id)
     }
 
 </script>
