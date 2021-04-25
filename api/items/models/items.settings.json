@@ -16,6 +16,9 @@
     },
     "description": {
       "type": "richtext"
+    },
+    "item_picture": {
+      "model": "item-pictures"
     }
   }
 }

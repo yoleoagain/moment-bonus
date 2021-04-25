@@ -5,6 +5,12 @@ query GetItems($sort: String, $search: String!) {
   ) {
     id
     name
+    item_picture{
+      pictures{
+        url
+        previewUrl
+      }
+    }
     description
     created_at
   }

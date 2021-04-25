@@ -1,5 +1,6 @@
 <script>
-  import { Link } from 'svelte-routing';
+  import { link } from 'svelte-routing';
+  import { palette } from '../theme/palette'
 
   export let to = '';
 
@@ -14,6 +15,16 @@
   }
 </script>
 
-<Link {to} {getProps}>
+<style>
+  .link:a{
+    text-decoration: none;
+    border: none;
+  }
+  .link:hover{
+    text-decoration: none;
+    color: "var(--theme-color)";
+  }
+</style>
+<a class="link" href={to} {getProps} use:link style="--theme-color: {palette.hoveredBackground}">
   <slot />
-</Link>
+</a>

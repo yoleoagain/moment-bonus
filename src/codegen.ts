@@ -141,6 +141,7 @@ export type ItemGroupsGroupBy = {
 export type ItemInput = {
   name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
+  item_picture?: Maybe<Scalars['ID']>;
   published_at?: Maybe<Scalars['DateTime']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
@@ -222,6 +223,7 @@ export type Items = {
   updated_at: Scalars['DateTime'];
   name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
+  item_picture?: Maybe<ItemPictures>;
   published_at?: Maybe<Scalars['DateTime']>;
 };
 
@@ -256,6 +258,12 @@ export type ItemsConnectionId = {
   connection?: Maybe<ItemsConnection>;
 };
 
+export type ItemsConnectionItem_Picture = {
+  __typename?: 'ItemsConnectionItem_picture';
+  key?: Maybe<Scalars['ID']>;
+  connection?: Maybe<ItemsConnection>;
+};
+
 export type ItemsConnectionName = {
   __typename?: 'ItemsConnectionName';
   key?: Maybe<Scalars['String']>;
@@ -281,12 +289,13 @@ export type ItemsGroupBy = {
   updated_at?: Maybe<Array<Maybe<ItemsConnectionUpdated_At>>>;
   name?: Maybe<Array<Maybe<ItemsConnectionName>>>;
   description?: Maybe<Array<Maybe<ItemsConnectionDescription>>>;
+  item_picture?: Maybe<Array<Maybe<ItemsConnectionItem_Picture>>>;
   published_at?: Maybe<Array<Maybe<ItemsConnectionPublished_At>>>;
 };
 
 
 
-export type Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | ItemGroups | ItemGroupsConnection | ItemGroupsAggregator | ItemGroupsGroupBy | ItemGroupsConnectionId | ItemGroupsConnectionCreated_At | ItemGroupsConnectionUpdated_At | ItemGroupsConnectionName | ItemGroupsConnectionPublished_At | CreateItemGroupPayload | UpdateItemGroupPayload | DeleteItemGroupPayload | ItemPictures | ItemPicturesConnection | ItemPicturesAggregator | ItemPicturesGroupBy | ItemPicturesConnectionId | ItemPicturesConnectionCreated_At | ItemPicturesConnectionUpdated_At | ItemPicturesConnectionPublished_At | CreateItemPicturePayload | UpdateItemPicturePayload | DeleteItemPicturePayload | Items | ItemsConnection | ItemsAggregator | ItemsGroupBy | ItemsConnectionId | ItemsConnectionCreated_At | ItemsConnectionUpdated_At | ItemsConnectionName | ItemsConnectionDescription | ItemsConnectionPublished_At | CreateItemPayload | UpdateItemPayload | DeleteItemPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_At | UploadFileConnectionUpdated_At | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | DeleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | CreateRolePayload | UpdateRolePayload | DeleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_At | UsersPermissionsUserConnectionUpdated_At | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | CreateUserPayload | UpdateUserPayload | DeleteUserPayload;
+export type Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | ItemGroups | ItemGroupsConnection | ItemGroupsAggregator | ItemGroupsGroupBy | ItemGroupsConnectionId | ItemGroupsConnectionCreated_At | ItemGroupsConnectionUpdated_At | ItemGroupsConnectionName | ItemGroupsConnectionPublished_At | CreateItemGroupPayload | UpdateItemGroupPayload | DeleteItemGroupPayload | ItemPictures | ItemPicturesConnection | ItemPicturesAggregator | ItemPicturesGroupBy | ItemPicturesConnectionId | ItemPicturesConnectionCreated_At | ItemPicturesConnectionUpdated_At | ItemPicturesConnectionPublished_At | CreateItemPicturePayload | UpdateItemPicturePayload | DeleteItemPicturePayload | Items | ItemsConnection | ItemsAggregator | ItemsGroupBy | ItemsConnectionId | ItemsConnectionCreated_At | ItemsConnectionUpdated_At | ItemsConnectionName | ItemsConnectionDescription | ItemsConnectionItem_Picture | ItemsConnectionPublished_At | CreateItemPayload | UpdateItemPayload | DeleteItemPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_At | UploadFileConnectionUpdated_At | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | DeleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | CreateRolePayload | UpdateRolePayload | DeleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_At | UsersPermissionsUserConnectionUpdated_At | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | CreateUserPayload | UpdateUserPayload | DeleteUserPayload;
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -1184,6 +1193,7 @@ export type EditItemGroupInput = {
 export type EditItemInput = {
   name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
+  item_picture?: Maybe<Scalars['ID']>;
   published_at?: Maybe<Scalars['DateTime']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
@@ -1314,6 +1324,13 @@ export type GetItemsQuery = (
   & { items?: Maybe<Array<Maybe<(
     { __typename?: 'Items' }
     & Pick<Items, 'id' | 'name' | 'description' | 'created_at'>
+    & { item_picture?: Maybe<(
+      { __typename?: 'ItemPictures' }
+      & { pictures?: Maybe<Array<Maybe<(
+        { __typename?: 'UploadFile' }
+        & Pick<UploadFile, 'url' | 'previewUrl'>
+      )>>> }
+    )> }
   )>>> }
 );
 
@@ -1343,6 +1360,12 @@ export const GetItemsDoc = gql`
   items(sort: $sort, where: {name_contains: $search}) {
     id
     name
+    item_picture {
+      pictures {
+        url
+        previewUrl
+      }
+    }
     description
     created_at
   }

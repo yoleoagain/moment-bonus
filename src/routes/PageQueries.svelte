@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition';
   import { GetItems, GetItemsDoc, addItem, deleteItem } from 'src/codegen';
   import { Wave } from 'svelte-loading-spinners';
-  import { debug } from 'svelte/internal';
-  import Item from '../components/Item.svelte'
+  import Item from '../components/atoms/Item.svelte';
+  import { fade, fly } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
 
   export let search = ''
   export let name = ''
@@ -41,7 +41,6 @@
 <style>
   .cards {
     display: flex;
-    justify-content: descriptionspace-around;
   }
 
   .column{
@@ -56,34 +55,43 @@
     background-color: rgb(173, 196, 178);
     box-shadow: 10px 5px 5px #ff3e00;
   }
+
+  .search{
+    margin-bottom: 0;
+    border-radius: 0;
+  }
 </style>
-<br />
+
+<input type="text" class="u-full-width search" placeholder="Поиск" bind:value={search} />
 <main class="cards">
   <div class="card">
-    <h2>Items</h2>
-    <div class="column">
-      <input placeholder='Search' bind:value={search} />
-      <input bind:value={name} />
-      <textarea disabled={loadingNewItem} bind:value={description} />
-      <button on:click={itemPlus}>
-        {#if loadingNewItem}
-          <Wave size="20" color="#FF3E00" unit="px" />
-        {:else}
-          Добавить
-        {/if}
-      </button>
+    <div class="row">
+      <div class="column">
+        <input type="text" bind:value={name} />
+        <textarea disabled={loadingNewItem} bind:value={description} />
+        <button on:click={itemPlus}>
+          {#if loadingNewItem}
+            <Wave size="20" color="#FF3E00" unit="px" />
+          {:else}
+            Добавить
+          {/if}
+        </button>
+      </div>
+      {#if $query.loading}
+        <Wave size="100" color="#FF3E00" unit="px" />
+      {/if}
+      {#each $query.data?.items || [] as item (item.id)}
+        <div
+          animate:flip in:fade={{duration: 200}} out:fade={{duration: 200}}
+        >
+          <Item
+            deleteItem={dropItem}
+            item={item}
+          />
+        </div>
+        
+      {/each}
     </div>
-    {#if $query.loading}
-      <Wave size="100" color="#FF3E00" unit="px" />
-    {/if}
-    {#each $query.data?.items || [] as item}
-      <span>{item.created_at}</span>
-      <Item
-        deleteItem={dropItem}
-        name={item.name}
-        description={item.description}
-        id={item.id}
-      />
-    {/each}
-  </div>
+    </div>
+    
 </main>
