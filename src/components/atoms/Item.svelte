@@ -1,5 +1,8 @@
 <script lang="ts">
+  import Label from '../typography/Label.svelte'
   import type { Items } from '../../codegen'
+  
+  const noImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3fZ_ebLrIR7-37WMGcyj_RO-0TTcZGtUKtg&usqp=CAU'
 
   export let deleteItem
   export let item: Items
@@ -21,31 +24,22 @@
         border: 1px solid rgb(155, 155, 155);
         border-radius: 4px;
         margin-top: 10px;
+        height: 60px;
     }
-    .desc{
-        margin-top: 5px;
+    .item img{
+        height: 100%;
+        width: auto;
     }
-    .item-main-picture__wrap{
-        width: 30%;
-    }
-    .item-main-picture__wrap img{
-        max-width: 100%;
+    .product-info__wrap{
+        display: flex;
         width: 100%;
-        height: auto;
     }
+    .item_name{}
 </style>
 <div class='item'>
-    <div class="item-main-picture__wrap">
-        <img src={picture} alt={item.name} />
+    <div class='product-info__wrap'>
+            <img src={picture || noImage} alt={item.name} />
+        <span class="item_name margin-left">{item.name}</span>
     </div>
-    <span>
-        {item.name}
-    </span>
-    <span class='desc'>
-        {item.description}
-    </span>
-    <span class="desc">
-        {item.id}
-    </span>
     <button on:click={remove}>X</button>
 </div>

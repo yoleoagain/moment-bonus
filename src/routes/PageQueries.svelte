@@ -61,13 +61,14 @@
     border-radius: 0;
   }
 </style>
-
-<input type="text" class="u-full-width search" placeholder="Поиск" bind:value={search} />
+<div class:is-loading={$query.loading} class="control is-full">
+  <input type="text" class="input is-full search" placeholder="Поиск" bind:value={search} />
+</div>
 <main class="cards">
   <div class="card">
     <div class="row">
       <div class="column">
-        <input type="text" bind:value={name} />
+        <input class="input is-full" type="text" bind:value={name} />
         <textarea disabled={loadingNewItem} bind:value={description} />
         <button on:click={itemPlus}>
           {#if loadingNewItem}
