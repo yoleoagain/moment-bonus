@@ -1,14 +1,23 @@
 <script lang="ts">
+  import type { Items } from 'src/codegen';
   import { GetItems, GetItemsDoc, addItem, deleteItem } from 'src/codegen';
   import { Wave } from 'svelte-loading-spinners';
   import Item from '../components/atoms/Item.svelte';
   import { fade, fly } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
+  import Modal from "../components/templates/Modal.svelte";
+  import ItemEditForm from "../components/organisms/ItemEditForm.svelte";
 
   export let search = ''
   export let name = ''
   export let description = ''
   export let loadingNewItem = false
+  export let modalIsOpen = false
+  export let itemIsNew = false
+  export let activeItem: Items = {
+
+  }
+  
   
   const refetchQueries = [{ query: GetItemsDoc, variables: { sort: 'created_at:DESC', search } }]
   $: query = GetItems({
@@ -17,6 +26,15 @@
       search
     }
   });
+
+  function openModal(){ 
+    modalIsOpen = true
+    itemIsNew = true 
+  }
+  function setActiveItem(item: Items){ 
+    modalIsOpen = true
+    activeItem = item 
+  }
 
   function itemPlus(){
     loadingNewItem = true
@@ -48,11 +66,10 @@
     flex-direction: column;
   }
 
-  .card {
+  .cards-subwrap {
     width: 100%;
-    height: calc(100vh - 150px);
     padding: 10px;
-    background-color: rgb(173, 196, 178);
+    background-color: #464444;
     box-shadow: 10px 5px 5px #ff3e00;
   }
 
@@ -61,21 +78,25 @@
     border-radius: 0;
   }
 </style>
-<div class:is-loading={$query.loading} class="control is-full">
-  <input type="text" class="input is-full search" placeholder="Поиск" bind:value={search} />
+
+{#if modalIsOpen}
+<Modal>
+  <ItemEditForm search={search} item={activeItem} />
+</Modal>
+{/if}
+
+<div class:is-loading={$query.loading} class="control is-full is-flex">
+  <input type="text" class="input search" placeholder="Поиск" bind:value={search} />
+  <button class="button" on:click={() => {}}>
+    <i class="fas fa-filter"></i>
+  </button>
 </div>
 <main class="cards">
-  <div class="card">
+  <div class="cards-subwrap">
     <div class="row">
-      <div class="column">
-        <input class="input is-full" type="text" bind:value={name} />
-        <textarea disabled={loadingNewItem} bind:value={description} />
-        <button on:click={itemPlus}>
-          {#if loadingNewItem}
-            <Wave size="20" color="#FF3E00" unit="px" />
-          {:else}
-            Добавить
-          {/if}
+      <div style="width: 100%;" class="buttons is-flex align-items-end is-justify-content-end">
+        <button class="button mt-2" on:click={openModal}>
+          <i class="fas fa-plus"></i>
         </button>
       </div>
       {#if $query.loading}
@@ -88,9 +109,9 @@
           <Item
             deleteItem={dropItem}
             item={item}
+            setActiveItem={setActiveItem}
           />
         </div>
-        
       {/each}
     </div>
     </div>
