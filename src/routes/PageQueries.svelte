@@ -29,7 +29,7 @@
 
   function openModal(){ 
     modalIsOpen = true
-    itemIsNew = true 
+    activeItem = { isNew: true }
   }
   function setActiveItem(item: Items){ 
     modalIsOpen = true
@@ -76,17 +76,22 @@
   .search{
     margin-bottom: 0;
     border-radius: 0;
+    width: calc(100% - 60px);
   }
 </style>
 
 {#if modalIsOpen}
 <Modal>
-  <ItemEditForm search={search} item={activeItem} />
+  <ItemEditForm
+    bind:isOpen={modalIsOpen}
+    search={search}
+    item={activeItem} 
+  />
 </Modal>
 {/if}
 
 <div class:is-loading={$query.loading} class="control is-full is-flex">
-  <input type="text" class="input search" placeholder="Поиск" bind:value={search} />
+  <input type="text" class="input search " placeholder="Поиск" bind:value={search} />
   <button class="button" on:click={() => {}}>
     <i class="fas fa-filter"></i>
   </button>

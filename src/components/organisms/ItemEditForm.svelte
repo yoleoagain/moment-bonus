@@ -2,27 +2,30 @@
   import type { Items } from "../../codegen"
   import { GetItems, GetItemsDoc, addItem, deleteItem } from 'src/codegen';
 
-
   export let item: Items
   export let isOpen
-  export let isNew
   export let search
 
   const refetchQueries = [{ query: GetItemsDoc, variables: { sort: 'created_at:DESC', search } }]
 
-
   function itemPlus(){
+    console.log('item', item)
+    console.log('HERERER!!!')
+    isOpen = false
     addItem({
       refetchQueries,
       variables: { name: item.name, description: item.description }
     })
       .then(e => { 
+        
       })
       .catch(e => {  })
   }
 
-  function submit(){
-    if (isNew)
+  function send(e){
+    e.preventDefault();
+    console.log('item', item)
+    if (item.isNew)
       itemPlus()
   }
 </script>
@@ -66,10 +69,10 @@
   </div>
   <div class="field is-grouped">
     <div class="control">
-      <button class="button is-link" on:click={submit}>Submit</button>
+      <button type="submit" class="button" on:click={send}>Submit</button>
     </div>
     <div class="control">
-      <button class="button is-link is-light" >Cancel</button>
+      <button class="button is-light" on:click={() => { isOpen = false }} >Cancel</button>
     </div>
   </div>
 </form>
