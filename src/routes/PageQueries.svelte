@@ -5,7 +5,7 @@
     GetItemsDoc, 
     addItem, 
     deleteItem,
-    ItemAdded,
+    ItemAdded
   } from 'src/codegen';
   import { Wave } from 'svelte-loading-spinners';
   import Item from '../components/atoms/Item.svelte';
@@ -23,10 +23,8 @@
   export let activeItem: Items | { isNew?: true } = {}
 
   const refetchQueries = [{ query: GetItemsDoc, variables: { sort: 'created_at:DESC', search } }]
-
-
-  $: newBooks = ItemAdded({})
-  console.log('newBooks', $newBooks  )
+  
+  // $: newBooks = ItemAdded({})
   $: query = GetItems({
     variables: {
       sort: 'created_at:DESC',
@@ -108,7 +106,7 @@
         <Wave size="100" color="#FF3E00" unit="px" />
       {/if}
       
-      {#each $newBooks.data?.items || [] as item, key (item.id)}
+      <!-- {#each $newBooks.data?.items || [] as item, key (item.id)}
       <div>
           <Item
             deleteItem={dropItem}
@@ -116,7 +114,7 @@
             setActiveItem={setActiveItem}
           />
         </div>
-      {/each}
+      {/each} -->
       {#each $query.data?.items || [] as item, key (item.id)}
 
           <!-- animate:flip in:fade={{duration: 200}} out:fade={{duration: 200}} -->
