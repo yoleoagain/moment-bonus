@@ -1,7 +1,7 @@
 schema:
   # - https://api.spacex.land/graphql/
   - './exports/graphql/schema.graphql'
-  - './exports/graphql/customSchema.graphql'
+  - './graphql/customSchema.graphql'
 overwrite: true
 documents:
   - './src/**/*.gql'
