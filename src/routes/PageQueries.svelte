@@ -1,6 +1,12 @@
 <script lang="ts">
   import type { Items } from 'src/codegen';
-  import { GetItems, GetItemsDoc, addItem, deleteItem } from 'src/codegen';
+  import { 
+    GetItems, 
+    GetItemsDoc, 
+    addItem, 
+    deleteItem,
+    ItemAdded,
+  } from 'src/codegen';
   import { Wave } from 'svelte-loading-spinners';
   import Item from '../components/atoms/Item.svelte';
   import { fade, fly } from 'svelte/transition';
@@ -14,12 +20,13 @@
   export let loadingNewItem = false
   export let modalIsOpen = false
   export let itemIsNew = false
-  export let activeItem: Items = {
+  export let activeItem: Items | { isNew?: true } = {}
 
-  }
-  
-  
   const refetchQueries = [{ query: GetItemsDoc, variables: { sort: 'created_at:DESC', search } }]
+
+
+  $: newBooks = ItemAdded({})
+  console.log('newBooks', $newBooks  )
   $: query = GetItems({
     variables: {
       sort: 'created_at:DESC',
@@ -28,24 +35,17 @@
   });
 
   function openModal(){ 
+  console.log('ooopa!!!'  )
+    
     modalIsOpen = true
     activeItem = { isNew: true }
   }
+
   function setActiveItem(item: Items){ 
+  console.log('ooopa!!!'  )
+
     modalIsOpen = true
     activeItem = item 
-  }
-
-  function itemPlus(){
-    loadingNewItem = true
-    addItem({
-      refetchQueries,
-      variables: { name, description }
-    })
-      .then(e => { 
-        loadingNewItem = false
-      })
-      .catch(e => { loadingNewItem = false })
   }
 
   const dropItem = (id) => {
@@ -107,9 +107,20 @@
       {#if $query.loading}
         <Wave size="100" color="#FF3E00" unit="px" />
       {/if}
-      {#each $query.data?.items || [] as item (item.id)}
-        <div
-          animate:flip in:fade={{duration: 200}} out:fade={{duration: 200}}
+      
+      {#each $newBooks.data?.items || [] as item, key (item.id)}
+      <div>
+          <Item
+            deleteItem={dropItem}
+            item={item}
+            setActiveItem={setActiveItem}
+          />
+        </div>
+      {/each}
+      {#each $query.data?.items || [] as item, key (item.id)}
+
+          <!-- animate:flip in:fade={{duration: 200}} out:fade={{duration: 200}} -->
+          <div
         >
           <Item
             deleteItem={dropItem}

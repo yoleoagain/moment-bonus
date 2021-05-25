@@ -14,10 +14,10 @@
     isOpen = false
     addItem({
       refetchQueries,
+      
       variables: { name: item.name, description: item.description }
     })
-      .then(e => { 
-        
+      .then(res => { 
       })
       .catch(e => {  })
   }

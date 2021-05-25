@@ -12,6 +12,7 @@ const cache = new InMemoryCache({
 });
 const wsLink = new WebSocketLink({
   uri: 'wss://localhost:1337/graphql',
+  onError: (e) => () => { console.log(e) },
   options: {
     lazy: true,
     reconnect: true,

@@ -1,6 +1,6 @@
 import client from "src/apollo-client";
 import type {
-        ApolloQueryResult, ObservableQuery, QueryOptions, MutationOptions
+        ApolloQueryResult, ObservableQuery, QueryOptions, MutationOptions, SubscriptionOptions
       } from "@apollo/client";
 import { readable } from "svelte/store";
 import type { Readable } from "svelte/store";
@@ -632,6 +632,16 @@ export type RoleInput = {
   users?: Maybe<Array<Maybe<Scalars['ID']>>>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  itemAdded?: Maybe<Items>;
+};
+
+
+export type SubscriptionItemAddedArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -1280,6 +1290,19 @@ export type UpdateUserPayload = {
   user?: Maybe<UsersPermissionsUser>;
 };
 
+export type ItemAddedSubscriptionVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type ItemAddedSubscription = (
+  { __typename?: 'Subscription' }
+  & { itemAdded?: Maybe<(
+    { __typename?: 'Items' }
+    & Pick<Items, 'id' | 'name' | 'description'>
+  )> }
+);
+
 export type AddItemMutationVariables = Exact<{
   name: Scalars['String'];
   description?: Maybe<Scalars['String']>;
@@ -1335,6 +1358,15 @@ export type GetItemsQuery = (
 );
 
 
+export const ItemAddedDoc = gql`
+    subscription ItemAdded($id: ID!) {
+  itemAdded(id: $id) {
+    id
+    name
+    description
+  }
+}
+    `;
 export const AddItemDoc = gql`
     mutation addItem($name: String!, $description: String) {
   createItem(input: {data: {name: $name, description: $description}}) {
@@ -1371,6 +1403,17 @@ export const GetItemsDoc = gql`
   }
 }
     `;
+export const ItemAdded = (
+            options: Omit<SubscriptionOptions<ItemAddedSubscriptionVariables>, "query">
+          ) => {
+            const q = client.subscribe<ItemAddedSubscription, ItemAddedSubscriptionVariables>(
+              {
+                query: ItemAddedDoc,
+                ...options,
+              }
+            )
+            return q;
+          }
 export const addItem = (
             options: Omit<
               MutationOptions<any, AddItemMutationVariables>, 
