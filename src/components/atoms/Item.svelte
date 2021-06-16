@@ -1,5 +1,4 @@
 <script lang="ts">
-  import Label from '../typography/Label.svelte'
   import type { Items } from '../../codegen'
   
   export let deleteItem
@@ -12,8 +11,9 @@
   $: picture = Array(images) && images ? images[0].url : '' 
 
   function edit(){ setActiveItem(item) }
+  
   function remove(e){
-      e.stopPropagation() 
+    e.stopPropagation() 
     deleteItem(item.id) 
   }
 </script>
@@ -41,7 +41,6 @@
         display: flex;
         width: 100%;
     }
-    .item_name{}
 </style>
 <div class='item p-3' on:click={edit}>
     <div class='product-info__wrap'>

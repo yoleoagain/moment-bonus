@@ -1,4 +1,5 @@
 export const palette = {
     primaryBackground: '#444444',
-    hoveredBackground: '#555555'
+    mainAccentBackground: '#524f4e',
+    hoveredBackground: '#555555',
 }

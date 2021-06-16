@@ -10,7 +10,5 @@
     margin: 0;
     max-height: unset;
   }
-</style>
-  <div class="modal-content p-4">
-    <slot />
-  </div>
+</style> 
+<div class="modal-content p-4"><slot /></div>

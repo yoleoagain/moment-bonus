@@ -2,3 +2,8 @@
 type Subscription {
   itemAdded(id: ID!): Items
 }
+
+fragment listItem on Items {
+  firstName
+  lastName
+}
