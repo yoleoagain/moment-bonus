@@ -13,5 +13,6 @@ query GetItems($sort: String, $search: String!) {
     }
     description
     created_at
+    updated_at
   }
 }

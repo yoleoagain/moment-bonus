@@ -1346,7 +1346,7 @@ export type GetItemsQuery = (
   { __typename?: 'Query' }
   & { items?: Maybe<Array<Maybe<(
     { __typename?: 'Items' }
-    & Pick<Items, 'id' | 'name' | 'description' | 'created_at'>
+    & Pick<Items, 'id' | 'name' | 'description' | 'created_at' | 'updated_at'>
     & { item_picture?: Maybe<(
       { __typename?: 'ItemPictures' }
       & { pictures?: Maybe<Array<Maybe<(
@@ -1355,6 +1355,24 @@ export type GetItemsQuery = (
       )>>> }
     )> }
   )>>> }
+);
+
+export type UpdateItemMutationVariables = Exact<{
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+}>;
+
+
+export type UpdateItemMutation = (
+  { __typename?: 'Mutation' }
+  & { updateItem?: Maybe<(
+    { __typename?: 'updateItemPayload' }
+    & { item?: Maybe<(
+      { __typename?: 'Items' }
+      & Pick<Items, 'name'>
+    )> }
+  )> }
 );
 
 
@@ -1400,6 +1418,18 @@ export const GetItemsDoc = gql`
     }
     description
     created_at
+    updated_at
+  }
+}
+    `;
+export const UpdateItemDoc = gql`
+    mutation updateItem($id: ID!, $name: String, $description: String) {
+  updateItem(
+    input: {where: {id: $id}, data: {name: $name, description: $description, created_by: 1}}
+  ) {
+    item {
+      name
+    }
   }
 }
     `;
@@ -1473,3 +1503,15 @@ export const GetItems = (
             return result;
           }
         
+export const updateItem = (
+            options: Omit<
+              MutationOptions<any, UpdateItemMutationVariables>, 
+              "mutation"
+            >
+          ) => {
+            const m = client.mutate<UpdateItemMutation, UpdateItemMutationVariables>({
+              mutation: UpdateItemDoc,
+              ...options,
+            });
+            return m;
+          }

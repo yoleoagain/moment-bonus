@@ -1,32 +1,29 @@
 <script lang='ts'>
-  import type { Items } from 'src/codegen'
-
-  import { GetItems, deleteItem } from 'src/codegen'
-  import { Wave } from 'svelte-loading-spinners'
+  import type { Items, MakeMaybe } from 'src/codegen'
   import Item from '../components/atoms/Item.svelte'
-  import { fade } from 'svelte/transition'
-	import { flip } from 'svelte/animate'
   import Modal from '../components/templates/Modal.svelte'
   import ItemEditForm from '../components/organisms/ItemEditForm.svelte'
-  import { fetchItems } from '../components/stores/queries/items'
+  import { editItemStore, baseItem, fetchItems } from '../stores/queries/items'
+  import { GetItems, deleteItem } from 'src/codegen'
+  import { Wave } from 'svelte-loading-spinners'
+  import { fade } from 'svelte/transition'
+	import { flip } from 'svelte/animate'
 
   $: query = GetItems({ variables: { sort: 'created_at:DESC', search } })
 
   export let search = ''
-  export let modalIsOpen = false
 
-  let activeItemID: null | string = null
+  let activeItem: Items | null = null
 
-  $: activeItem = ($query.data?.items || []).find(itm => itm.id === activeItemID)
+  editItemStore.subscribe(value => { activeItem = value })
 
-  function openModal(){ modalIsOpen = true }
+  function createNewItem(){ editItemStore.set(baseItem) }
+  const dropItem = (id) => deleteItem({ 
+    refetchQueries: fetchItems(search), 
+    variables: { id } 
+  })
+    .then(res => editItemStore.set(null))
 
-  function setActiveItem(item: Items){ 
-    modalIsOpen = true
-    activeItemID = item.id
-  }
-
-  const dropItem = (id) => deleteItem({ refetchQueries: fetchItems(search), variables: { id } })
 </script>
 
 <style>
@@ -48,13 +45,9 @@
   }
 </style>
 
-{#if modalIsOpen && activeItem !== null}
+{#if activeItem !== null}
 <Modal>
-  <ItemEditForm
-    bind:isOpen={modalIsOpen}
-    search={search}
-    item={activeItem} 
-  />
+  <ItemEditForm search={search} />
 </Modal>
 {/if}
 
@@ -68,7 +61,7 @@
   <div class='cards-subwrap'>
     <div class='row'>
       <div style='width: 100%;' class='buttons is-flex align-items-end is-justify-content-end'>
-        <button class='button mt-2' on:click={openModal}>
+        <button class='button mt-2' on:click={createNewItem}>
           <i class='fas fa-plus'></i>
         </button>
       </div>
@@ -79,14 +72,9 @@
       
       {#each $query.data?.items || [] as item, key (item.id)}
         <div animate:flip in:fade={{duration: 200}} out:fade={{duration: 200}}>
-          <Item
-            deleteItem={dropItem}
-            item={item}
-            setActiveItem={setActiveItem}
-          />
+          <Item deleteItem={dropItem} item={item} />
         </div>
       {/each}
     </div>
     </div>
-    
 </main>

@@ -1,0 +1,12 @@
+mutation updateItem($id: ID!, $name: String, $description: String){
+  updateItem(
+    input: { 
+      where: { id: $id }
+      data: { name: $name, description: $description, created_by: 1 }
+    }
+  ) {
+      item{
+          name
+      }
+  }
+}

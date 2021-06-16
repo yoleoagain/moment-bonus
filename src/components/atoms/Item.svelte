@@ -1,22 +1,23 @@
 <script lang="ts">
   import type { Items } from '../../codegen'
-  
+  import { editItemStore } from '../../stores/queries/items'
+
   export let deleteItem
-  export let item: Items
-  export let setActiveItem: (item: Items) => void
+  export let item: Items | null
 
   const noImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3fZ_ebLrIR7-37WMGcyj_RO-0TTcZGtUKtg&usqp=CAU'
   const images = item?.item_picture?.pictures
 
   $: picture = Array(images) && images ? images[0].url : '' 
 
-  function edit(){ setActiveItem(item) }
-  
+  function edit(){ editItemStore.set(item) }
+
   function remove(e){
     e.stopPropagation() 
     deleteItem(item.id) 
   }
 </script>
+
 <style>
     .item{
         display: flex;
@@ -42,9 +43,10 @@
         width: 100%;
     }
 </style>
+
 <div class='item p-3' on:click={edit}>
     <div class='product-info__wrap'>
-        <img src={picture || noImage} alt={item.name} />
+        <img src={picture || noImage} alt={$editItemStore?.name} />
         <span class="ml-2 item_name margin-left">{item.name}</span>
     </div>
     <button class="button" on:click={remove}>

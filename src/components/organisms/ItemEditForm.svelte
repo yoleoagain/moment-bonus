@@ -1,30 +1,42 @@
 <script lang='ts'>
   import type { Items } from '../../codegen'
-  import { fetchItems } from '../stores/queries/items'
-  import { addItem } from 'src/codegen'
-
-  export let item: Items
-  export let isOpen
-  export let search
+  import { fetchItems } from '../../stores/queries/items'
+  import { addItem, updateItem } from 'src/codegen'
+  import { editItemStore } from '../../stores/queries/items'
 
   $: refetchQueries = fetchItems(search)
+  // $: {
+  //   editItemStore.set(item)
+  // }
 
+  export let search: string
+  let item: Items = {}
   let error = ''
- 
-  function addItemHandle(){
-    addItem({
-      refetchQueries,
-      variables: { name: item.name, description: item.description }
-    })
-      .then(res => isOpen = false)
-      .catch(e => error = e.message)
-  }
+
+  editItemStore.subscribe(value => { item = value })
+
+  function close(){ editItemStore.set(null) }
 
   function send(e){
     e.preventDefault();
 
-    if (item.isNew){
-      addItemHandle()
+    if (item.id === ''){
+      addItem({
+        refetchQueries,
+        variables: { name: item.name, description: item.description }
+      })
+        .then(res => close())
+        .catch(e => error = e.message)
+    }  else {
+      console.log('item', item)
+      updateItem({
+        refetchQueries,
+        variables: { 
+          id: item.id,
+          name: item.name,
+          description: item.description,
+        }
+      })
     }
   }
 </script>
@@ -70,7 +82,7 @@
       <button type='submit' class='button' on:click={send}>Submit</button>
     </div>
     <div class='control'>
-      <button class='button is-light' on:click={() => { isOpen = false }} >Cancel</button>
+      <button class='button is-light' on:click={close} >Cancel</button>
     </div>
   </div>
 </form>
