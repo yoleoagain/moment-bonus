@@ -1,4 +1,4 @@
-//TODO: find how generate base item from type
+//TODO: find how generate base item from type or create own fabric
 //TODO: find how generate type from gql fragmet as part of whole item
 
 import { GetItemsDoc, Items } from 'src/codegen'

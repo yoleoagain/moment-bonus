@@ -4,7 +4,7 @@
       "files": ["*.svelte", "*.ts"],
       "options": {
         "tabWidth": 2,
-        "printWidth": 60,
+        "printWidth": 80,
         "singleQuote": true,
         "semi": false,
         "htmlWhitespaceSensitivity": "strict"

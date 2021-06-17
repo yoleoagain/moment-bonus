@@ -7,11 +7,11 @@
   $: refetchQueries = fetchItems(search)
 
   export let search: string
-  let item: Items = {}
+  let item: Items = null
   let error = ''
 
   editItemStore.subscribe((value) => {
-    item = value
+    item = { ...value }
   })
 
   function close() {
@@ -40,6 +40,8 @@
           description: item.description,
         },
       })
+        .then((res) => close())
+        .catch((e) => (error = e.message))
     }
   }
 </script>
@@ -82,14 +84,10 @@
   </div>
   <div class="field is-grouped">
     <div class="control">
-      <button type="submit" class="button" on:click={send}
-        >Submit</button
-      >
+      <button type="submit" class="button" on:click={send}>Submit</button>
     </div>
     <div class="control">
-      <button class="button is-light" on:click={close}
-        >Cancel</button
-      >
+      <button class="button is-light" on:click={close}>Cancel</button>
     </div>
   </div>
 </form>

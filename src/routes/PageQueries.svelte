@@ -3,19 +3,13 @@
   import Item from '../components/atoms/Item.svelte'
   import Modal from '../components/templates/Modal.svelte'
   import ItemEditForm from '../components/organisms/ItemEditForm.svelte'
-  import {
-    editItemStore,
-    baseItem,
-    fetchItems,
-  } from '../stores/queries/items'
+  import { editItemStore, baseItem, fetchItems } from '../stores/queries/items'
   import { GetItems, deleteItem } from 'src/codegen'
   import { Wave } from 'svelte-loading-spinners'
   import { fade } from 'svelte/transition'
   import { flip } from 'svelte/animate'
 
-  $: query = GetItems({
-    variables: { sort: 'created_at:DESC', search },
-  })
+  $: query = GetItems({ variables: { sort: 'created_at:DESC', search } })
 
   export let search = ''
 
@@ -25,9 +19,8 @@
     activeItem = value
   })
 
-  function createNewItem() {
-    editItemStore.set(baseItem)
-  }
+  const createNewItem = () => editItemStore.set(baseItem)
+
   const dropItem = (id) =>
     deleteItem({
       refetchQueries: fetchItems(search),
@@ -41,10 +34,7 @@
   </Modal>
 {/if}
 
-<div
-  class:is-loading={$query.loading}
-  class="control is-full is-flex"
->
+<div class:is-loading={$query.loading} class="control is-full is-flex">
   <input
     type="text"
     class="input search"
@@ -62,10 +52,7 @@
         style="width: 100%;"
         class="buttons is-flex align-items-end is-justify-content-end"
       >
-        <button
-          class="button mt-2"
-          on:click={createNewItem}
-        >
+        <button class="button mt-2" on:click={createNewItem}>
           <i class="fas fa-plus" />
         </button>
       </div>
