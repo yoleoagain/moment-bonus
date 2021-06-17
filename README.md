@@ -11,9 +11,11 @@ npm run strapi-build
 
 1. Sign up or Login in http://localhost:1337/admin
 2. Set permissons for your user http://localhost:1337/admin/settings/users-permissions/roles
-   (Or just set free permisions on CRUD of all tables)
+   (Or just enable free permisions on CRUD of all tables)
 
 ## Development
+
+codegen.ts
 
 ```
 npm run backend
