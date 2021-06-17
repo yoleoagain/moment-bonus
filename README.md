@@ -3,7 +3,7 @@
 ## Instalation
 
 ```
-npm run i
+npm i
 npm run strapi-build
 ```
 
@@ -12,7 +12,11 @@ npm run strapi-build
 ```
 npm run backend
 npm run dev
-npm run types // Build types from backend gql schema
+```
+## Build types from gql schema
+
+```
+npm run types
 ```
 
 ## CMS and DB
