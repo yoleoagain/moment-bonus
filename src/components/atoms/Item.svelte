@@ -5,8 +5,7 @@
   export let deleteItem
   export let item: Items | null
 
-  const noImage =
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3fZ_ebLrIR7-37WMGcyj_RO-0TTcZGtUKtg&usqp=CAU'
+  const noImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3fZ_ebLrIR7-37WMGcyj_RO-0TTcZGtUKtg&usqp=CAU'
   const images = item?.item_picture?.pictures
 
   $: picture = Array(images) && images ? images[0].url : ''
