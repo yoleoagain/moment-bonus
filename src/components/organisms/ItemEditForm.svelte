@@ -1,88 +1,89 @@
-<script lang='ts'>
+<script lang="ts">
   import type { Items } from '../../codegen'
   import { fetchItems } from '../../stores/queries/items'
   import { addItem, updateItem } from 'src/codegen'
   import { editItemStore } from '../../stores/queries/items'
 
   $: refetchQueries = fetchItems(search)
-  // $: {
-  //   editItemStore.set(item)
-  // }
 
   export let search: string
   let item: Items = {}
   let error = ''
 
-  editItemStore.subscribe(value => { item = value })
+  editItemStore.subscribe((value) => {
+    item = value
+  })
 
-  function close(){ editItemStore.set(null) }
+  function close() {
+    editItemStore.set(null)
+  }
 
-  function send(e){
-    e.preventDefault();
+  function send(e) {
+    e.preventDefault()
 
-    if (item.id === ''){
+    if (item.id === '') {
       addItem({
         refetchQueries,
-        variables: { name: item.name, description: item.description }
+        variables: { name: item.name, description: item.description },
       })
-        .then(res => close())
-        .catch(e => error = e.message)
-    }  else {
+        .then((res) => close())
+        .catch((e) => (error = e.message))
+    } else {
       console.log('item', item)
       updateItem({
         refetchQueries,
-        variables: { 
+        variables: {
           id: item.id,
           name: item.name,
           description: item.description,
-        }
+        },
       })
     }
   }
 </script>
 
-<form class='form p-2'>
-  <div class='field'>
-    <label for='name' class='label'>Name:</label>
-    <div class='control'>
-      <input 
+<form class="form p-2">
+  <div class="field">
+    <label for="name" class="label">Name:</label>
+    <div class="control">
+      <input
         bind:value={item.name}
-        name='name'
-        class='input'
-        type='text'
-        placeholder='Text input'
+        name="name"
+        class="input"
+        type="text"
+        placeholder="Text input"
       />
     </div>
   </div>
-  <div class='field'>
-    <label for='name' class='label'>Description:</label>
-    <div class='control'>
+  <div class="field">
+    <label for="name" class="label">Description:</label>
+    <div class="control">
       <textarea
         bind:value={item.description}
-        name='description'
-        class='textarea'
-        type='text'
-        placeholder='Text input'
+        name="description"
+        class="textarea"
+        type="text"
+        placeholder="Text input"
       />
     </div>
   </div>
-  <div class='field'>
-    <label for='name' class='label'>Picture:</label>
-    <div class='control'>
-      <input 
-        name='picture'
-        class='input'
-        type='file'
-        placeholder='Text input'
+  <div class="field">
+    <label for="name" class="label">Picture:</label>
+    <div class="control">
+      <input
+        name="picture"
+        class="input"
+        type="file"
+        placeholder="Text input"
       />
     </div>
   </div>
-  <div class='field is-grouped'>
-    <div class='control'>
-      <button type='submit' class='button' on:click={send}>Submit</button>
+  <div class="field is-grouped">
+    <div class="control">
+      <button type="submit" class="button" on:click={send}>Submit</button>
     </div>
-    <div class='control'>
-      <button class='button is-light' on:click={close} >Cancel</button>
+    <div class="control">
+      <button class="button is-light" on:click={close}>Cancel</button>
     </div>
   </div>
 </form>

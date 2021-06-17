@@ -1,5 +1,7 @@
+<div class="modal-content p-4"><slot /></div>
+
 <style>
-  .modal-content{
+  .modal-content {
     background: #464444;
     height: 100vh;
     position: absolute;
@@ -10,5 +12,4 @@
     margin: 0;
     max-height: unset;
   }
-</style> 
-<div class="modal-content p-4"><slot /></div>
+</style>
