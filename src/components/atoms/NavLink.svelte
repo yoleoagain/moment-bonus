@@ -1,19 +1,10 @@
 <script>
   import { link } from 'svelte-routing'
-  import { palette } from '../theme/palette'
 
   export let to = ''
 
-  function getProps({
-    location,
-    href,
-    isPartiallyCurrent,
-    isCurrent,
-  }) {
-    const isActive =
-      href === '/'
-        ? isCurrent
-        : isPartiallyCurrent || isCurrent
+  function getProps({ location, href, isPartiallyCurrent, isCurrent }) {
+    const isActive = href === '/' ? isCurrent : isPartiallyCurrent || isCurrent
 
     // The object returned here is spread on the anchor element's attributes
     if (isActive) {
@@ -23,13 +14,7 @@
   }
 </script>
 
-<a
-  class="link"
-  href={to}
-  {getProps}
-  use:link
-  style="--theme-color: {palette.hoveredBackground}"
->
+<a class="link" href={to} {getProps} use:link>
   <slot />
 </a>
 
