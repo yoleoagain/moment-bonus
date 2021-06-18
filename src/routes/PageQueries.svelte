@@ -82,7 +82,7 @@
   .cards-subwrap {
     width: 100%;
     padding: 10px;
-    background-color: #464444;
+    background-color: var(--theme-primaryBackground);
     box-shadow: 10px 5px 5px #ff3e00;
   }
 

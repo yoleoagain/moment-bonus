@@ -1,12 +1,11 @@
 ﻿<script lang="ts">
-  import type { Pallete } from '../components/theme/palettes'
-  import type { NumberHashMap } from '../types/common'
-
+  import type { Pallete } from '../../components/theme/palettes'
+  import type { NumberHashMap } from '../../types/common'
   import { setContext, onMount } from 'svelte'
   import { writable } from 'svelte/store'
-  import palettes from '../components/theme/palettes'
-  import paddings from '../components/theme/paddings'
-  import { getBrowserTheme } from '../utils/browser'
+  import palettes from '../../components/theme/palettes'
+  import paddings from '../../components/theme/paddings'
+  import { getBrowserTheme } from '../../utils/browser'
 
   type Theme = {
     mode: 'dark' | 'light'
@@ -30,11 +29,21 @@
 
   setContext('theme', {
     theme,
-    toogle: () =>
-      theme.update((t) => ({
-        ...t,
-        palette: palettes[mode === 'dark' ? 'light' : 'dark'],
-      })),
+    toogle: () => {
+      const newMode = $theme.mode === 'dark' ? 'light' : 'dark'
+      const newTheme: Theme = {
+        ...$theme,
+        mode: newMode,
+        palette: palettes[newMode],
+      }
+
+      theme.set(newTheme)
+      setRootColors(newTheme)
+    },
+  })
+
+  onMount(() => {
+    setRootColors($theme)
   })
 </script>
 
