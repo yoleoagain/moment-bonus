@@ -30,4 +30,4 @@ npm run types
 ```
 
 This command will generate a types, fetchers (based on `src/graphql` files), and observable svelte store.
-Strapi export's a graphql schema by dafault, based on database meta after changing the DB strucure in to the file `src/codegen.ts`.
+Strapi export's a graphql schema by default, based on database meta after changing the DB strucure in to the file `src/codegen.ts`.
