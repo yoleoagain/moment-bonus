@@ -15,8 +15,6 @@ npm run strapi-build
 
 ## Development
 
-codegen.ts
-
 ```
 npm run backend
 npm run dev
