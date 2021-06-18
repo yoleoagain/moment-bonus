@@ -1,5 +1,8 @@
 # Moment bonus
 
+Project build on svelte, sapper, strapi - headless cms, graphql, apollo.
+Main goal is a try to create real world app, without client global state boilerplate, with one source of truth - API data.
+
 ## Instalation
 
 ```
