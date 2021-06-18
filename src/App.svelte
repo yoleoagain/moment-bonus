@@ -1,6 +1,6 @@
 <script>
   import { Router, Route } from 'svelte-routing'
-  import { routes } from './routes'
+  import { routes } from '../routes/Items.svelte'
   import Items from './routes/Items.svelte'
   import Navbar from './components/organisms/NavBar.svelte'
   import Theme from './components/context/Theme.svelte'
