@@ -3,7 +3,7 @@ type Colors = 'primaryBackground' |
   'hoveredBackground' |
   'primaryFont'
 
-type Pallete = { [key in Colors]: string }
+export type Pallete = { [key in Colors]: string }
 
 const dark: Pallete = {
   primaryBackground: '#444444',
