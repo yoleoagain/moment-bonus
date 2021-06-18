@@ -20,6 +20,7 @@ npm run strapi-build
 
 ```
 npm run backend
+npm run types
 npm run dev
 ```
 
