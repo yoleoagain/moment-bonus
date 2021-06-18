@@ -1,6 +1,7 @@
 <script>
   import { Router, Route } from 'svelte-routing'
-  import PageQueries from './routes/PageQueries.svelte'
+  import { routes } from './routes'
+  import Items from './routes/Items.svelte'
   import Navbar from './components/organisms/NavBar.svelte'
   import Theme from './components/context/Theme.svelte'
 
@@ -9,8 +10,8 @@
 <Theme>
   <Router {url}>
     <Navbar />
-    <Route path="">
-      <PageQueries />
+    <Route path={routes.app.items.route}>
+      <Items />
     </Route>
   </Router>
 </Theme>
