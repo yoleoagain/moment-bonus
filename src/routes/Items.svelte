@@ -4,6 +4,7 @@
   import Modal from '../components/templates/Modal.svelte'
   import ItemEditForm from '../components/organisms/ItemEditForm.svelte'
   import { editItemStore, baseItem, fetchItems } from '../stores/queries/items'
+  import { getContext } from 'svelte'
   import { GetItems, deleteItem } from 'src/codegen'
   import { Wave } from 'svelte-loading-spinners'
   import { fade } from 'svelte/transition'
@@ -12,8 +13,8 @@
   $: query = GetItems({ variables: { sort: 'created_at:DESC', search } })
 
   export let search = ''
-
   let activeItem: Items | null = null
+  let { theme } = getContext('theme')
 
   editItemStore.subscribe((value) => {
     activeItem = value
@@ -46,7 +47,7 @@
   </button>
 </div>
 <main class="cards">
-  <div class="cards-subwrap ">
+  <div class="cards-subwrap">
     <div class="row">
       <div
         style="width: 100%;"
@@ -58,7 +59,7 @@
       </div>
 
       {#if $query.loading}
-        <Wave size="100" color="#FF3E00" unit="px" />
+        <Wave size="100" color={$theme.palette.highlitsColor} unit="px" />
       {/if}
 
       {#each $query.data?.items || [] as item, key (item.id)}
@@ -83,7 +84,7 @@
     width: 100%;
     padding: 10px;
     background-color: var(--theme-primaryBackground);
-    box-shadow: 10px 5px 5px #ff3e00;
+    box-shadow: 10px 5px 5px var(--theme-highlitsColor);
   }
 
   .search {

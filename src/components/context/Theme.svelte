@@ -19,10 +19,10 @@
     palette: palettes[mode],
   })
 
-  const setRootColors = (theme: Theme) => {
-    for (let [prop, color] of Object.entries(theme.palette)) {
+  const setRootVars = (theme: Theme) => {
+    for (let [prop, value] of Object.entries(theme.palette)) {
       let varString = `--theme-${prop}`
-      document.documentElement.style.setProperty(varString, color)
+      document.documentElement.style.setProperty(varString, value)
     }
     document.documentElement.style.setProperty('--theme-mode', theme.mode)
   }
@@ -38,12 +38,12 @@
       }
 
       theme.set(newTheme)
-      setRootColors(newTheme)
+      setRootVars(newTheme)
     },
   })
 
   onMount(() => {
-    setRootColors($theme)
+    setRootVars($theme)
   })
 </script>
 
