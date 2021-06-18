@@ -1,6 +1,6 @@
 ﻿<script lang="ts">
   import type { Pallete } from '../../components/theme/palettes'
-  import type { NumberHashMap } from '../../types/common'
+  import type { NumberHashMap, StringHashMap } from '../../types/common'
   import { setContext, onMount } from 'svelte'
   import { writable } from 'svelte/store'
   import palettes from '../../components/theme/palettes'
@@ -20,10 +20,17 @@
   })
 
   const setRootVars = (theme: Theme) => {
-    for (let [prop, value] of Object.entries(theme.palette)) {
-      let varString = `--theme-${prop}`
-      document.documentElement.style.setProperty(varString, value)
-    }
+    const mapVars = (itm: NumberHashMap | StringHashMap, prefix: string = '') =>
+      Object.entries(itm).forEach(([prop, value]) => {
+        document.documentElement.style.setProperty(
+          `--theme-${prefix}${prop}`,
+          value
+        )
+      })
+
+    mapVars(theme.palette)
+    mapVars(theme.paddings, 'gap-')
+
     document.documentElement.style.setProperty('--theme-mode', theme.mode)
   }
 
