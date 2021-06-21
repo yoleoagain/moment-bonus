@@ -2,29 +2,23 @@
   import { link } from 'svelte-routing'
 
   export let to = ''
-
-  function getProps({ location, href, isPartiallyCurrent, isCurrent }) {
-    const isActive = href === '/' ? isCurrent : isPartiallyCurrent || isCurrent
-
-    // The object returned here is spread on the anchor element's attributes
-    if (isActive) {
-      return { class: 'active' }
-    }
-    return {}
-  }
+  let isActive = location.pathname === to
 </script>
 
-<a class="link" href={to} {getProps} use:link>
+<a class:nav-active={isActive} class="link" href={to} use:link>
   <slot />
 </a>
 
 <style>
+  .nav-active {
+    border-bottom: 2px solid #eee;
+  }
   .link:a {
     text-decoration: none;
     border: none;
   }
   .link:hover {
     text-decoration: none;
-    color: 'var(--theme-color)';
+    color: var(--theme---theme-primaryFont);
   }
 </style>

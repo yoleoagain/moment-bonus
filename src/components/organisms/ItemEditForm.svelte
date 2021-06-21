@@ -4,9 +4,8 @@
   import { addItem, updateItem } from 'src/codegen'
   import { editItemStore } from '../../stores/queries/items'
 
-  $: refetchQueries = fetchItems(search)
+  $: refetchQueries = fetchItems
 
-  export let search: string
   let item: Items = null
   let error = ''
 

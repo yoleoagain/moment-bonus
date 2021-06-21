@@ -3,16 +3,16 @@
   import Item from '../components/atoms/Item.svelte'
   import Modal from '../components/templates/Modal.svelte'
   import ItemEditForm from '../components/organisms/ItemEditForm.svelte'
-  import { editItemStore, baseItem, fetchItems } from '../stores/queries/items'
+  import { editItemStore, baseItem } from '../stores/queries/items'
   import { getContext } from 'svelte'
-  import { GetItems, deleteItem } from 'src/codegen'
+  import { GetItems } from 'src/codegen'
+  import { search } from '../stores/queries/items'
   import { Wave } from 'svelte-loading-spinners'
-  import { fade } from 'svelte/transition'
-  import { flip } from 'svelte/animate'
 
-  $: query = GetItems({ variables: { sort: 'created_at:DESC', search } })
+  $: query = GetItems({
+    variables: { sort: 'created_at:DESC', search: $search },
+  })
 
-  export let search = ''
   let activeItem: Items | null = null
   let { theme } = getContext('theme')
 
@@ -21,17 +21,11 @@
   })
 
   const createNewItem = () => editItemStore.set(baseItem)
-
-  const dropItem = (id) =>
-    deleteItem({
-      refetchQueries: fetchItems(search),
-      variables: { id },
-    }).then((res) => editItemStore.set(null))
 </script>
 
 {#if activeItem !== null}
   <Modal>
-    <ItemEditForm {search} />
+    <ItemEditForm />
   </Modal>
 {/if}
 
@@ -40,15 +34,12 @@
     type="text"
     class="input search"
     placeholder="Поиск"
-    bind:value={search}
+    bind:value={$search}
   />
-  <button class="button" on:click={() => {}}>
-    <i class="fas fa-filter" />
-  </button>
 </div>
 <main class="cards">
   <div class="cards-subwrap">
-    <div class="row">
+    <div class="row items-list">
       <div
         style="width: 100%;"
         class="buttons is-flex align-items-end is-justify-content-end"
@@ -62,34 +53,22 @@
         <Wave size="100" color={$theme.palette.highlitsColor} unit="px" />
       {/if}
 
-      {#each $query.data?.items || [] as item, key (item.id)}
-        <div
-          animate:flip
-          in:fade={{ duration: 200 }}
-          out:fade={{ duration: 200 }}
-        >
-          <Item deleteItem={dropItem} {item} />
-        </div>
-      {/each}
+      {#each $query.data?.items || [] as item}<Item {item} />{/each}
     </div>
   </div>
 </main>
 
 <style>
+  .items-list {
+    padding: var(--theme-gap-main) px;
+  }
   .cards {
     display: flex;
   }
-
   .cards-subwrap {
     width: 100%;
     padding: var(--theme-gap-half);
     background-color: var(--theme-primaryBackground);
     box-shadow: 10px 5px 5px var(--theme-highlitsColor);
-  }
-
-  .search {
-    margin-bottom: 0;
-    border-radius: 0;
-    width: calc(100% - 60px);
   }
 </style>

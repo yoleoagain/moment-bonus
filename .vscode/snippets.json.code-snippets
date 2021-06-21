@@ -1,0 +1,14 @@
+{
+	"css_theme_variable": {
+		"prefix": "cl",
+		"body": [
+			"color: var(--theme-$0);"
+		]
+	},
+	"css_theme_gap": {
+		"prefix": "pd",
+		"body": [
+			"padding: var(--theme-gap-$0);"
+		]
+	}
+}

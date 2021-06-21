@@ -2,12 +2,12 @@
 //TODO: find how generate type from gql fragmet as part of whole item
 
 import { GetItemsDoc, Items } from 'src/codegen'
-import { writable } from 'svelte/store'
+import { writable, get } from 'svelte/store'
 
-export const fetchItems = (search: string) => { return [{ query: GetItemsDoc, variables: { sort: 'created_at:DESC', search } }] }
-
+export const search = writable('')
 export const editItemStore = writable<Items | null>(null)
 
+export const fetchItems = [{ query: GetItemsDoc, variables: { sort: 'created_at:DESC', search: get(search) } }]
 export const baseItem = {
     id: '',
     name: '',

@@ -1,11 +1,12 @@
 <script lang="ts">
   import type { Items } from '../../codegen'
-  import { editItemStore } from '../../stores/queries/items'
+  import { deleteItem } from '../../codegen'
+  import { editItemStore, fetchItems, search } from '../../stores/queries/items'
 
-  export let deleteItem
   export let item: Items | null
 
-  const noImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3fZ_ebLrIR7-37WMGcyj_RO-0TTcZGtUKtg&usqp=CAU'
+  const noImage =
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3fZ_ebLrIR7-37WMGcyj_RO-0TTcZGtUKtg&usqp=CAU'
   const images = item?.item_picture?.pictures
 
   $: picture = Array(images) && images ? images[0].url : ''
@@ -16,7 +17,12 @@
 
   function remove(e) {
     e.stopPropagation()
-    deleteItem(item.id)
+    if (item) {
+      deleteItem({
+        refetchQueries: fetchItems,
+        variables: { id: item.id },
+      }).then((res) => editItemStore.set(null))
+    }
   }
 </script>
 
@@ -34,17 +40,16 @@
   .item {
     display: flex;
     justify-content: space-between;
-    background: #eee;
-    border: 1px solid 7b7472;
-    border-radius: 4px;
+    border: 1px solid var(--theme-borderColor);
+    border-radius: var(--theme-mainAccentBackground);
     margin-top: 10px;
     height: 60px;
-    background: #524f4e;
-    color: #ffffff;
+    background: var(--theme-mainAccentBackground);
+    color: var(--theme-primaryFont);
     cursor: pointer;
   }
   .item:hover {
-    background: #696664;
+    background: var(--theme-hoveredBackground);
   }
   .item img {
     height: 100%;

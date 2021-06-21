@@ -1,7 +1,7 @@
 ﻿export default {
-  double: 32,
-  mainAndHalf: 24,
-  main: 16,
-  half: 8,
-  quarter: 4
+  double: '32px',
+  mainAndHalf: '24px',
+  main: '16px',
+  half: '8px',
+  quarter: '4px'
 }
