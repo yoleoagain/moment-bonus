@@ -3,6 +3,8 @@
 
   export let to = ''
   let isActive = location.pathname === to
+  $: console.log('location.pathname', location.pathname)
+  $: console.log('to', to)
 </script>
 
 <a class:nav-active={isActive} class="link" href={to} use:link>

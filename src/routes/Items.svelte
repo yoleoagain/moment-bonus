@@ -28,47 +28,48 @@
     <ItemEditForm />
   </Modal>
 {/if}
-
-<div class:is-loading={$query.loading} class="control is-full is-flex">
+<div class="items-wrap">
   <input
     type="text"
     class="input search"
     placeholder="Поиск"
     bind:value={$search}
+    class:is-loading={$query.loading}
   />
-</div>
-<main class="cards">
-  <div class="cards-subwrap">
-    <div class="row items-list">
-      <div
-        style="width: 100%;"
-        class="buttons is-flex align-items-end is-justify-content-end"
-      >
-        <button class="button mt-2" on:click={createNewItem}>
-          <i class="fas fa-plus" />
-        </button>
+  <main class="cards">
+    <div class="cards-subwrap">
+      <div class="row">
+        <div
+          style="width: 100%;"
+          class="buttons is-flex align-items-end is-justify-content-end control-wrap"
+        >
+          <button class="button mt-2" on:click={createNewItem}>
+            <i class="fas fa-plus" />
+          </button>
+        </div>
+
+        {#if $query.loading}
+          <Wave size="100" color={$theme.palette.highlitsColor} unit="px" />
+        {/if}
+
+        {#each $query.data?.items || [] as item}<Item {item} />{/each}
       </div>
-
-      {#if $query.loading}
-        <Wave size="100" color={$theme.palette.highlitsColor} unit="px" />
-      {/if}
-
-      {#each $query.data?.items || [] as item}<Item {item} />{/each}
     </div>
-  </div>
-</main>
+  </main>
+</div>
 
 <style>
-  .items-list {
-    padding: var(--theme-gap-main) px;
+  .control-wrap {
+    margin-top: var(--theme-gap-half);
+  }
+  .items-wrap {
+    padding: var(--theme-gap-main);
   }
   .cards {
     display: flex;
   }
   .cards-subwrap {
     width: 100%;
-    padding: var(--theme-gap-half);
     background-color: var(--theme-primaryBackground);
-    box-shadow: 10px 5px 5px var(--theme-highlitsColor);
   }
 </style>

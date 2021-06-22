@@ -42,11 +42,13 @@
     justify-content: space-between;
     border: 1px solid var(--theme-borderColor);
     border-radius: var(--theme-mainAccentBackground);
-    margin-top: 10px;
     height: 60px;
     background: var(--theme-mainAccentBackground);
     color: var(--theme-primaryFont);
     cursor: pointer;
+  }
+  .item:not(:first-child) {
+    margin-top: var(--theme-gap-half);
   }
   .item:hover {
     background: var(--theme-hoveredBackground);
