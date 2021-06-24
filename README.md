@@ -24,7 +24,8 @@ npm run types
 npm run dev
 ```
 
-## Build types from gql schema
+## Build types from gql schema 
+[graphql-codegen-svelte-apollo](https://github.com/ticruz38/graphql-codegen-svelte-apollo)
 
 ```
 npm run types
