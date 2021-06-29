@@ -2,7 +2,7 @@
 
 <style>
   .modal-content {
-    background: #464444;
+    background: var(--theme-primaryBackground);
     height: 100vh;
     position: absolute;
     z-index: 1;

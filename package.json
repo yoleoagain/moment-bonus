@@ -1,8 +1,7 @@
 {
-  "name": "my-project",
+  "name": "moment-bonus",
   "private": true,
   "version": "0.1.0",
-  "description": "A Strapi application",
   "scripts": {
     "backend": "strapi develop",
     "strapi-start": "strapi start",
@@ -32,6 +31,7 @@
     "svelte": "^3.0.0",
     "svelte-check": "^1.0.0",
     "svelte-preprocess": "^4.0.0",
+    "svelte-preprocess-css-global": "0.0.1",
     "tslib": "^2.0.0",
     "typescript": "^3.9.3"
   },

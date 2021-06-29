@@ -13,7 +13,7 @@ npm run strapi-build
 ### CMS and DB
 
 1. Sign up or Login in http://localhost:1337/admin
-2. Set permissons for your user http://localhost:1337/admin/settings/users-permissions/roles
+2. Set permissons for your user http://localhost:1337/admin/settings/users-permissions/roles/2
    (Or just enable free permisions on CRUD of all tables)
 
 ## Development
