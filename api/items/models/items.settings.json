@@ -19,6 +19,9 @@
     },
     "item_picture": {
       "model": "item-pictures"
+    },
+    "item_group": {
+      "model": "item-groups"
     }
   }
 }

@@ -1,18 +1,23 @@
-query GetItems($sort: String, $search: String!) {
+fragment ItemListFields on Items {
+  id
+  name
+  description
+  item_picture{
+    pictures{
+      url
+      previewUrl
+    }
+  }
+  item_group{
+    id
+  }
+}
+
+query GetItems($sort: String, $where: JSON!) {
   items(
     sort: $sort
-    where: { name_contains: $search }
+    where: $where
   ) {
-    id
-    name
-    item_picture{
-      pictures{
-        url
-        previewUrl
-      }
-    }
-    description
-    created_at
-    updated_at
+    ...ItemListFields
   }
 }

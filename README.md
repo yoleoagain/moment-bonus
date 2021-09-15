@@ -16,6 +16,8 @@ npm run strapi-build
 2. Set permissons for your user http://localhost:1337/admin/settings/users-permissions/roles/2
    (Or just enable free permisions on CRUD of all tables)
 
+`GraphQL playground:` http://localhost:1337/graphql
+
 ## Development
 
 ```

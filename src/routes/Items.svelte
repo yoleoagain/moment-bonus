@@ -3,22 +3,27 @@
   import Item from '../components/atoms/Item.svelte'
   import Modal from '../components/templates/Modal.svelte'
   import ItemEditForm from '../components/organisms/ItemEditForm.svelte'
-  import { editItemStore, baseItem } from '../stores/queries/items'
+  import { editItemStore, baseItem, where } from '../stores/queries/items'
   import { getContext } from 'svelte'
   import { GetItems } from 'src/codegen'
   import { search } from '../stores/queries/items'
+  import { activeGroupID } from '../stores/queries/groups'
   import { Wave } from 'svelte-loading-spinners'
+  import { get } from 'svelte/store'
+
+  // $search
 
   $: query = GetItems({
-    variables: { sort: 'created_at:DESC', search: $search },
+    variables: { 
+      sort: 'created_at:DESC', 
+      where: $where, 
+     },
   })
 
   let activeItem: Items | null = null
   let { theme } = getContext('theme')
 
-  editItemStore.subscribe((value) => {
-    activeItem = value
-  })
+  editItemStore.subscribe((value) => { activeItem = value })
 
   const createNewItem = () => editItemStore.set(baseItem)
 </script>
@@ -36,6 +41,15 @@
     bind:value={$search}
     class:is-loading={$query.loading}
   />
+  <div>
+    <label>GROUP_ID: </label>
+    <input 
+      type="numeric"
+      placeholder="GROUP_ID"
+      bind:value={$activeGroupID}
+    />
+  </div>
+  
   <main class="cards">
     <div class="cards-subwrap">
       <div class="row">

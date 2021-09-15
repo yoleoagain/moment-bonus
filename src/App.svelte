@@ -32,4 +32,7 @@
     color: var(--theme-primaryFont);
     opacity: 1;
   }
+  :global(label) {
+    color: var(--theme-primaryFont);
+  }
 </style>
