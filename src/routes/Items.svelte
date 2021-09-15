@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Items } from 'src/codegen'
+  import type { ItemListFieldsFragment } from 'src/codegen'
   import Item from '../components/atoms/Item.svelte'
   import Modal from '../components/templates/Modal.svelte'
   import ItemEditForm from '../components/organisms/ItemEditForm.svelte'
@@ -20,7 +20,7 @@
      },
   })
 
-  let activeItem: Items | null = null
+  let activeItem: ItemListFieldsFragment | null = null
   let { theme } = getContext('theme')
 
   editItemStore.subscribe((value) => { activeItem = value })
@@ -42,8 +42,9 @@
     class:is-loading={$query.loading}
   />
   <div>
-    <label>GROUP_ID: </label>
+    <label for="g_id">GROUP_ID: </label>
     <input 
+      id="g_id"
       type="numeric"
       placeholder="GROUP_ID"
       bind:value={$activeGroupID}
