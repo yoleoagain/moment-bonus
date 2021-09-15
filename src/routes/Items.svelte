@@ -9,9 +9,6 @@
   import { search } from '../stores/queries/items'
   import { activeGroupID } from '../stores/queries/groups'
   import { Wave } from 'svelte-loading-spinners'
-  import { get } from 'svelte/store'
-
-  // $search
 
   $: query = GetItems({
     variables: { 

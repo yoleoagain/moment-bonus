@@ -1,5 +1,5 @@
 //TODO: Find how generate base item from type or create own fabric.
-//TODO: How to configure "where" condition and set relay to gql types?
+//TODO: How to configure "where" condition and set relay to gql types from codegen? 
 
 import { GetItemsDoc, ItemListFieldsFragment } from 'src/codegen'
 import { writable, get } from 'svelte/store'
