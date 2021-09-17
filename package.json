@@ -58,7 +58,8 @@
     "strapi-utils": "3.6.3",
     "svelte-apollo": "^0.3.0",
     "svelte-loading-spinners": "^0.1.1",
-    "svelte-routing": "^1.4.2"
+    "svelte-routing": "^1.4.2",
+    "svelte-select": "^4.4.2"
   },
   "author": {
     "name": "A Strapi developer"

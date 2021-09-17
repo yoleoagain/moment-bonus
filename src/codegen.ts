@@ -1346,6 +1346,17 @@ export type DeleteItemMutation = (
   )> }
 );
 
+export type GetGroupsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetGroupsQuery = (
+  { __typename?: 'Query' }
+  & { itemGroups?: Maybe<Array<Maybe<(
+    { __typename?: 'ItemGroups' }
+    & Pick<ItemGroups, 'id' | 'name'>
+  )>>> }
+);
+
 export type ItemListFieldsFragment = (
   { __typename?: 'Items' }
   & Pick<Items, 'id' | 'name' | 'description'>
@@ -1438,6 +1449,14 @@ export const DeleteItemDoc = gql`
   }
 }
     `;
+export const GetGroupsDoc = gql`
+    query GetGroups {
+  itemGroups {
+    id
+    name
+  }
+}
+    `;
 export const GetItemsDoc = gql`
     query GetItems($sort: String, $where: JSON!) {
   items(sort: $sort, where: $where) {
@@ -1491,6 +1510,41 @@ export const deleteItem = (
             });
             return m;
           }
+export const GetGroups = (
+            options: Omit<
+              QueryOptions<GetGroupsQueryVariables>, 
+              "query"
+            >
+          ): Readable<
+            ApolloQueryResult<GetGroupsQuery> & {
+              query: ObservableQuery<
+                GetGroupsQuery,
+                GetGroupsQueryVariables
+              >;
+            }
+          > => {
+            const q = client.watchQuery({
+              query: GetGroupsDoc,
+              ...options,
+            });
+            var result = readable<
+              ApolloQueryResult<GetGroupsQuery> & {
+                query: ObservableQuery<
+                  GetGroupsQuery,
+                  GetGroupsQueryVariables
+                >;
+              }
+            >(
+              { data: null, loading: true, error: null, networkStatus: 1, query: null },
+              (set) => {
+                q.subscribe((v) => {
+                  set({ ...v, query: q });
+                });
+              }
+            );
+            return result;
+          }
+        
 export const GetItems = (
             options: Omit<
               QueryOptions<GetItemsQueryVariables>, 

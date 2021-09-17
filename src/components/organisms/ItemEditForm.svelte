@@ -1,12 +1,12 @@
 <script lang="ts">
-  import type { Items } from '../../codegen'
+  import type { ItemListFieldsFragment } from '../../codegen'
   import { fetchItems } from '../../stores/queries/items'
   import { addItem, updateItem } from 'src/codegen'
   import { editItemStore } from '../../stores/queries/items'
 
   $: refetchQueries = fetchItems
 
-  let item: Items = null
+  let item: ItemListFieldsFragment = null
   let error = ''
 
   editItemStore.subscribe((value) => {

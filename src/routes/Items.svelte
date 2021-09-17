@@ -5,22 +5,37 @@
   import ItemEditForm from '../components/organisms/ItemEditForm.svelte'
   import { editItemStore, baseItem, where } from '../stores/queries/items'
   import { getContext } from 'svelte'
-  import { GetItems } from 'src/codegen'
+  import { GetItems, GetGroups } from 'src/codegen'
   import { search } from '../stores/queries/items'
   import { activeGroupID } from '../stores/queries/groups'
   import { Wave } from 'svelte-loading-spinners'
+  import Select from 'svelte-select'
 
   $: query = GetItems({
-    variables: { 
-      sort: 'created_at:DESC', 
-      where: $where, 
-     },
+    variables: {
+      sort: 'created_at:DESC',
+      where: $where,
+    },
   })
+  $: groups = GetGroups({})
+  $: groupOptions = [
+    ...[
+      { value: null, label: 'Все группы' },
+      ...($groups?.data?.itemGroups || []).map((g) => ({
+        value: g.id,
+        label: g.name,
+      })),
+    ],
+  ]
+  $: activeGroupOption =
+    groupOptions.find((g) => +g.value === $activeGroupID) || groupOptions[0]
 
   let activeItem: ItemListFieldsFragment | null = null
   let { theme } = getContext('theme')
 
-  editItemStore.subscribe((value) => { activeItem = value })
+  editItemStore.subscribe((value) => {
+    activeItem = value
+  })
 
   const createNewItem = () => editItemStore.set(baseItem)
 </script>
@@ -30,35 +45,36 @@
     <ItemEditForm />
   </Modal>
 {/if}
-<div class="items-wrap">
-  <input
-    type="text"
-    class="input search"
-    placeholder="Поиск"
-    bind:value={$search}
-    class:is-loading={$query.loading}
-  />
-  <div>
-    <label for="g_id">GROUP_ID: </label>
-    <input 
-      id="g_id"
-      type="numeric"
-      placeholder="GROUP_ID"
-      bind:value={$activeGroupID}
+<div class="items-wrap is-flex-direction-column is-flex">
+  <div class="is-flex-direction-row is-flex is-justify-content-center mb-3">
+    <input
+      type="text"
+      class="input search mr-2"
+      placeholder="Поиск"
+      bind:value={$search}
+      class:is-loading={$query.loading}
     />
+    <button class="button " on:click={createNewItem}>
+      <i class="fas fa-plus" />
+    </button>
   </div>
-  
+
+  <Select
+    on:select={(e) => {
+      activeGroupID.update((v) => +e.detail.value)
+    }}
+    items={groupOptions}
+    value={activeGroupOption}
+    isClearable={false}
+  />
+
   <main class="cards">
     <div class="cards-subwrap">
       <div class="row">
         <div
           style="width: 100%;"
           class="buttons is-flex align-items-end is-justify-content-end control-wrap"
-        >
-          <button class="button mt-2" on:click={createNewItem}>
-            <i class="fas fa-plus" />
-          </button>
-        </div>
+        />
 
         {#if $query.loading}
           <Wave size="100" color={$theme.palette.highlitsColor} unit="px" />

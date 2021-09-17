@@ -23,7 +23,6 @@ activeGroupID.subscribe(v => {
     where.set(newWhere) 
 })
 
-
 export const fetchItems = [{ 
     query: GetItemsDoc, 
     variables: { 

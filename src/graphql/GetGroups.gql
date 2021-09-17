@@ -1,0 +1,6 @@
+﻿query GetGroups {
+  itemGroups {
+    id
+    name
+  }
+}
