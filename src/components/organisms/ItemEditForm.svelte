@@ -72,7 +72,7 @@
       />
     </div>
   </div>
-  <div class="field">
+  <!-- <div class="field">
     <label for="name" class="label">Picture:</label>
     <div class="control">
       <input
@@ -82,7 +82,7 @@
         placeholder="Text input"
       />
     </div>
-  </div>
+  </div> -->
   <div class="field is-grouped">
     <div class="control">
       <button type="submit" class="button" on:click={send}>Submit</button>
