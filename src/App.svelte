@@ -33,7 +33,7 @@
     opacity: 1;
   }
   :global(label) {
-    color: var(--theme-primaryFont);
+    color: var(--theme-primaryFont) !important;
   }
 
   /**
