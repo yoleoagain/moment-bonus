@@ -1,10 +1,11 @@
 <script lang="ts">
   import type { ItemListFieldsFragment } from '../../codegen'
   import { fetchItems } from '../../stores/queries/items'
+  import { activeGroupID } from '../../stores/queries/groups'
   import { addItem, updateItem } from 'src/codegen'
   import { editItemStore } from '../../stores/queries/items'
 
-  $: refetchQueries = fetchItems
+  $: refetchQueries = fetchItems()
 
   let item: ItemListFieldsFragment = null
   let error = ''
@@ -26,6 +27,7 @@
         variables: {
           name: item.name,
           description: item.description,
+          item_group: String($activeGroupID),
         },
       })
         .then((res) => close())

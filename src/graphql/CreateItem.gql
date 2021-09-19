@@ -7,9 +7,11 @@ subscription ItemAdded($id: ID!) {
   }
 }
 
-mutation addItem($name: String!, $description: String) {
+mutation addItem($name: String!, $description: String, $item_group: ID!) {
   createItem(
-    input: { data: { name: $name, description: $description } }
+    input: {
+      data: { name: $name, description: $description, item_group: $item_group }
+    }
   ) {
     item {
       name

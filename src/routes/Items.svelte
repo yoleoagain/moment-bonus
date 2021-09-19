@@ -3,7 +3,8 @@
   import Item from '../components/atoms/Item.svelte'
   import Modal from '../components/templates/Modal.svelte'
   import ItemEditForm from '../components/organisms/ItemEditForm.svelte'
-  import { editItemStore, baseItem, where } from '../stores/queries/items'
+  import { editItemStore, where } from '../stores/queries/items'
+  import { baseItem } from '../stores/queries/items'
   import { getContext } from 'svelte'
   import { GetItems, GetGroups } from 'src/codegen'
   import { search } from '../stores/queries/items'
@@ -20,7 +21,7 @@
   $: groups = GetGroups({})
   $: groupOptions = [
     ...[
-      { value: null, label: 'Все группы' },
+      { value: null, label: 'Все' }, // Show all products
       ...($groups?.data?.itemGroups || []).map((g) => ({
         value: g.id,
         label: g.name,
@@ -79,14 +80,19 @@
         {#if $query.loading}
           <Wave size="100" color={$theme.palette.highlitsColor} unit="px" />
         {/if}
-
-        {#each $query.data?.items || [] as item}<Item {item} />{/each}
+        <div class="products-wrap">
+          {#each $query.data?.items || [] as item}<Item {item} />{/each}
+        </div>
       </div>
     </div>
   </main>
 </div>
 
 <style>
+  .products-wrap {
+    height: calc(100vh - 210px);
+    overflow-y: auto;
+  }
   .control-wrap {
     margin-top: var(--theme-gap-half);
   }

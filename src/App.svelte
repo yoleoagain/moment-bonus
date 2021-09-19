@@ -35,4 +35,36 @@
   :global(label) {
     color: var(--theme-primaryFont);
   }
+
+  /**
+    ScrollBar
+  */
+  :global(::-webkit-scrollbar) {
+    width: 8px;
+    border-radius: 4px;
+  }
+
+  :global(::-webkit-scrollbar-track) {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+
+  :global(::-webkit-scrollbar-thumb) {
+    background: #888;
+    border-radius: 4px;
+  }
+
+  :global(::-webkit-scrollbar-thumb:hover) {
+    background: #555;
+  }
+  /**
+    Body
+  */
+  :global(html) {
+    overflow-y: hidden;
+  }
+
+  :global(body) {
+    overflow-y: hidden;
+  }
 </style>

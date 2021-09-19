@@ -8,7 +8,7 @@
   const noImage =
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3fZ_ebLrIR7-37WMGcyj_RO-0TTcZGtUKtg&usqp=CAU'
   const images = item?.item_picture?.pictures
-  console.log(item)
+
   $: picture = Array(images) && images ? images[0].url : ''
 
   function edit() {
@@ -19,7 +19,7 @@
     e.stopPropagation()
     if (item) {
       deleteItem({
-        refetchQueries: fetchItems,
+        refetchQueries: fetchItems(),
         variables: { id: item.id },
       }).then((res) => editItemStore.set(null))
     }

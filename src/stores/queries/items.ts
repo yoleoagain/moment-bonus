@@ -1,7 +1,7 @@
 //TODO: Find how generate base item from type or create own fabric.
 //TODO: How to configure "where" condition and set relay to gql types from codegen? 
 
-import { GetItemsDoc, ItemListFieldsFragment } from 'src/codegen'
+import { GetItemsDoc, ItemListFieldsFragment, CreateItemInput } from 'src/codegen'
 import { writable, get } from 'svelte/store'
 import { activeGroupID } from './groups'
 
@@ -23,7 +23,7 @@ activeGroupID.subscribe(v => {
     where.set(newWhere) 
 })
 
-export const fetchItems = [{ 
+export const fetchItems = () => [{ 
     query: GetItemsDoc, 
     variables: { 
         sort: 'created_at:DESC', 

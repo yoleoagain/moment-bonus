@@ -1316,6 +1316,7 @@ export type ItemAddedSubscription = (
 export type AddItemMutationVariables = Exact<{
   name: Scalars['String'];
   description?: Maybe<Scalars['String']>;
+  item_group: Scalars['ID'];
 }>;
 
 
@@ -1430,8 +1431,10 @@ export const ItemAddedDoc = gql`
 }
     `;
 export const AddItemDoc = gql`
-    mutation addItem($name: String!, $description: String) {
-  createItem(input: {data: {name: $name, description: $description}}) {
+    mutation addItem($name: String!, $description: String, $item_group: ID!) {
+  createItem(
+    input: {data: {name: $name, description: $description, item_group: $item_group}}
+  ) {
     item {
       name
       description
