@@ -143,6 +143,7 @@ export type ItemInput = {
   description?: Maybe<Scalars['String']>;
   item_picture?: Maybe<Scalars['ID']>;
   item_group?: Maybe<Scalars['ID']>;
+  prices?: Maybe<Array<Maybe<Scalars['ID']>>>;
   published_at?: Maybe<Scalars['DateTime']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
@@ -227,6 +228,15 @@ export type Items = {
   item_picture?: Maybe<ItemPictures>;
   item_group?: Maybe<ItemGroups>;
   published_at?: Maybe<Scalars['DateTime']>;
+  prices?: Maybe<Array<Maybe<Prices>>>;
+};
+
+
+export type ItemsPricesArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
 };
 
 export type ItemsAggregator = {
@@ -304,7 +314,7 @@ export type ItemsGroupBy = {
 
 
 
-export type Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | ItemGroups | ItemGroupsConnection | ItemGroupsAggregator | ItemGroupsGroupBy | ItemGroupsConnectionId | ItemGroupsConnectionCreated_At | ItemGroupsConnectionUpdated_At | ItemGroupsConnectionName | ItemGroupsConnectionPublished_At | CreateItemGroupPayload | UpdateItemGroupPayload | DeleteItemGroupPayload | ItemPictures | ItemPicturesConnection | ItemPicturesAggregator | ItemPicturesGroupBy | ItemPicturesConnectionId | ItemPicturesConnectionCreated_At | ItemPicturesConnectionUpdated_At | ItemPicturesConnectionPublished_At | CreateItemPicturePayload | UpdateItemPicturePayload | DeleteItemPicturePayload | Items | ItemsConnection | ItemsAggregator | ItemsGroupBy | ItemsConnectionId | ItemsConnectionCreated_At | ItemsConnectionUpdated_At | ItemsConnectionName | ItemsConnectionDescription | ItemsConnectionItem_Picture | ItemsConnectionItem_Group | ItemsConnectionPublished_At | CreateItemPayload | UpdateItemPayload | DeleteItemPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_At | UploadFileConnectionUpdated_At | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | DeleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | CreateRolePayload | UpdateRolePayload | DeleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_At | UsersPermissionsUserConnectionUpdated_At | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | CreateUserPayload | UpdateUserPayload | DeleteUserPayload;
+export type Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | ItemGroups | ItemGroupsConnection | ItemGroupsAggregator | ItemGroupsGroupBy | ItemGroupsConnectionId | ItemGroupsConnectionCreated_At | ItemGroupsConnectionUpdated_At | ItemGroupsConnectionName | ItemGroupsConnectionPublished_At | CreateItemGroupPayload | UpdateItemGroupPayload | DeleteItemGroupPayload | ItemPictures | ItemPicturesConnection | ItemPicturesAggregator | ItemPicturesGroupBy | ItemPicturesConnectionId | ItemPicturesConnectionCreated_At | ItemPicturesConnectionUpdated_At | ItemPicturesConnectionPublished_At | CreateItemPicturePayload | UpdateItemPicturePayload | DeleteItemPicturePayload | Items | ItemsConnection | ItemsAggregator | ItemsGroupBy | ItemsConnectionId | ItemsConnectionCreated_At | ItemsConnectionUpdated_At | ItemsConnectionName | ItemsConnectionDescription | ItemsConnectionItem_Picture | ItemsConnectionItem_Group | ItemsConnectionPublished_At | CreateItemPayload | UpdateItemPayload | DeleteItemPayload | PriceTypes | PriceTypesConnection | PriceTypesAggregator | PriceTypesGroupBy | PriceTypesConnectionId | PriceTypesConnectionCreated_At | PriceTypesConnectionUpdated_At | PriceTypesConnectionName | PriceTypesConnectionPublished_At | CreatePriceTypePayload | UpdatePriceTypePayload | DeletePriceTypePayload | Prices | PricesConnection | PricesAggregator | PricesAggregatorSum | PricesAggregatorAvg | PricesAggregatorMin | PricesAggregatorMax | PricesGroupBy | PricesConnectionId | PricesConnectionCreated_At | PricesConnectionUpdated_At | PricesConnectionPrice | PricesConnectionPrice_Type | PricesConnectionPublished_At | CreatePricePayload | UpdatePricePayload | DeletePricePayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_At | UploadFileConnectionUpdated_At | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | DeleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | CreateRolePayload | UpdateRolePayload | DeleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_At | UsersPermissionsUserConnectionUpdated_At | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | CreateUserPayload | UpdateUserPayload | DeleteUserPayload;
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -317,6 +327,12 @@ export type Mutation = {
   createItem?: Maybe<CreateItemPayload>;
   updateItem?: Maybe<UpdateItemPayload>;
   deleteItem?: Maybe<DeleteItemPayload>;
+  createPriceType?: Maybe<CreatePriceTypePayload>;
+  updatePriceType?: Maybe<UpdatePriceTypePayload>;
+  deletePriceType?: Maybe<DeletePriceTypePayload>;
+  createPrice?: Maybe<CreatePricePayload>;
+  updatePrice?: Maybe<UpdatePricePayload>;
+  deletePrice?: Maybe<DeletePricePayload>;
   /** Delete one file */
   deleteFile?: Maybe<DeleteFilePayload>;
   /** Create a new role */
@@ -384,6 +400,36 @@ export type MutationUpdateItemArgs = {
 
 export type MutationDeleteItemArgs = {
   input?: Maybe<DeleteItemInput>;
+};
+
+
+export type MutationCreatePriceTypeArgs = {
+  input?: Maybe<CreatePriceTypeInput>;
+};
+
+
+export type MutationUpdatePriceTypeArgs = {
+  input?: Maybe<UpdatePriceTypeInput>;
+};
+
+
+export type MutationDeletePriceTypeArgs = {
+  input?: Maybe<DeletePriceTypeInput>;
+};
+
+
+export type MutationCreatePriceArgs = {
+  input?: Maybe<CreatePriceInput>;
+};
+
+
+export type MutationUpdatePriceArgs = {
+  input?: Maybe<UpdatePriceInput>;
+};
+
+
+export type MutationDeletePriceArgs = {
+  input?: Maybe<DeletePriceInput>;
 };
 
 
@@ -473,6 +519,175 @@ export type MutationEmailConfirmationArgs = {
   confirmation: Scalars['String'];
 };
 
+export type PriceInput = {
+  price?: Maybe<Scalars['Float']>;
+  price_type?: Maybe<Scalars['ID']>;
+  published_at?: Maybe<Scalars['DateTime']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type PriceTypeInput = {
+  name?: Maybe<Scalars['String']>;
+  published_at?: Maybe<Scalars['DateTime']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type PriceTypes = {
+  __typename?: 'PriceTypes';
+  id: Scalars['ID'];
+  created_at: Scalars['DateTime'];
+  updated_at: Scalars['DateTime'];
+  name?: Maybe<Scalars['String']>;
+  published_at?: Maybe<Scalars['DateTime']>;
+};
+
+export type PriceTypesAggregator = {
+  __typename?: 'PriceTypesAggregator';
+  count?: Maybe<Scalars['Int']>;
+  totalCount?: Maybe<Scalars['Int']>;
+};
+
+export type PriceTypesConnection = {
+  __typename?: 'PriceTypesConnection';
+  values?: Maybe<Array<Maybe<PriceTypes>>>;
+  groupBy?: Maybe<PriceTypesGroupBy>;
+  aggregate?: Maybe<PriceTypesAggregator>;
+};
+
+export type PriceTypesConnectionCreated_At = {
+  __typename?: 'PriceTypesConnectionCreated_at';
+  key?: Maybe<Scalars['DateTime']>;
+  connection?: Maybe<PriceTypesConnection>;
+};
+
+export type PriceTypesConnectionId = {
+  __typename?: 'PriceTypesConnectionId';
+  key?: Maybe<Scalars['ID']>;
+  connection?: Maybe<PriceTypesConnection>;
+};
+
+export type PriceTypesConnectionName = {
+  __typename?: 'PriceTypesConnectionName';
+  key?: Maybe<Scalars['String']>;
+  connection?: Maybe<PriceTypesConnection>;
+};
+
+export type PriceTypesConnectionPublished_At = {
+  __typename?: 'PriceTypesConnectionPublished_at';
+  key?: Maybe<Scalars['DateTime']>;
+  connection?: Maybe<PriceTypesConnection>;
+};
+
+export type PriceTypesConnectionUpdated_At = {
+  __typename?: 'PriceTypesConnectionUpdated_at';
+  key?: Maybe<Scalars['DateTime']>;
+  connection?: Maybe<PriceTypesConnection>;
+};
+
+export type PriceTypesGroupBy = {
+  __typename?: 'PriceTypesGroupBy';
+  id?: Maybe<Array<Maybe<PriceTypesConnectionId>>>;
+  created_at?: Maybe<Array<Maybe<PriceTypesConnectionCreated_At>>>;
+  updated_at?: Maybe<Array<Maybe<PriceTypesConnectionUpdated_At>>>;
+  name?: Maybe<Array<Maybe<PriceTypesConnectionName>>>;
+  published_at?: Maybe<Array<Maybe<PriceTypesConnectionPublished_At>>>;
+};
+
+export type Prices = {
+  __typename?: 'Prices';
+  id: Scalars['ID'];
+  created_at: Scalars['DateTime'];
+  updated_at: Scalars['DateTime'];
+  price?: Maybe<Scalars['Float']>;
+  price_type?: Maybe<PriceTypes>;
+  published_at?: Maybe<Scalars['DateTime']>;
+};
+
+export type PricesAggregator = {
+  __typename?: 'PricesAggregator';
+  count?: Maybe<Scalars['Int']>;
+  totalCount?: Maybe<Scalars['Int']>;
+  sum?: Maybe<PricesAggregatorSum>;
+  avg?: Maybe<PricesAggregatorAvg>;
+  min?: Maybe<PricesAggregatorMin>;
+  max?: Maybe<PricesAggregatorMax>;
+};
+
+export type PricesAggregatorAvg = {
+  __typename?: 'PricesAggregatorAvg';
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type PricesAggregatorMax = {
+  __typename?: 'PricesAggregatorMax';
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type PricesAggregatorMin = {
+  __typename?: 'PricesAggregatorMin';
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type PricesAggregatorSum = {
+  __typename?: 'PricesAggregatorSum';
+  price?: Maybe<Scalars['Float']>;
+};
+
+export type PricesConnection = {
+  __typename?: 'PricesConnection';
+  values?: Maybe<Array<Maybe<Prices>>>;
+  groupBy?: Maybe<PricesGroupBy>;
+  aggregate?: Maybe<PricesAggregator>;
+};
+
+export type PricesConnectionCreated_At = {
+  __typename?: 'PricesConnectionCreated_at';
+  key?: Maybe<Scalars['DateTime']>;
+  connection?: Maybe<PricesConnection>;
+};
+
+export type PricesConnectionId = {
+  __typename?: 'PricesConnectionId';
+  key?: Maybe<Scalars['ID']>;
+  connection?: Maybe<PricesConnection>;
+};
+
+export type PricesConnectionPrice = {
+  __typename?: 'PricesConnectionPrice';
+  key?: Maybe<Scalars['Float']>;
+  connection?: Maybe<PricesConnection>;
+};
+
+export type PricesConnectionPrice_Type = {
+  __typename?: 'PricesConnectionPrice_type';
+  key?: Maybe<Scalars['ID']>;
+  connection?: Maybe<PricesConnection>;
+};
+
+export type PricesConnectionPublished_At = {
+  __typename?: 'PricesConnectionPublished_at';
+  key?: Maybe<Scalars['DateTime']>;
+  connection?: Maybe<PricesConnection>;
+};
+
+export type PricesConnectionUpdated_At = {
+  __typename?: 'PricesConnectionUpdated_at';
+  key?: Maybe<Scalars['DateTime']>;
+  connection?: Maybe<PricesConnection>;
+};
+
+export type PricesGroupBy = {
+  __typename?: 'PricesGroupBy';
+  id?: Maybe<Array<Maybe<PricesConnectionId>>>;
+  created_at?: Maybe<Array<Maybe<PricesConnectionCreated_At>>>;
+  updated_at?: Maybe<Array<Maybe<PricesConnectionUpdated_At>>>;
+  price?: Maybe<Array<Maybe<PricesConnectionPrice>>>;
+  price_type?: Maybe<Array<Maybe<PricesConnectionPrice_Type>>>;
+  published_at?: Maybe<Array<Maybe<PricesConnectionPublished_At>>>;
+};
+
 export enum PublicationState {
   Live = 'LIVE',
   Preview = 'PREVIEW'
@@ -489,6 +704,12 @@ export type Query = {
   item?: Maybe<Items>;
   items?: Maybe<Array<Maybe<Items>>>;
   itemsConnection?: Maybe<ItemsConnection>;
+  priceType?: Maybe<PriceTypes>;
+  priceTypes?: Maybe<Array<Maybe<PriceTypes>>>;
+  priceTypesConnection?: Maybe<PriceTypesConnection>;
+  price?: Maybe<Prices>;
+  prices?: Maybe<Array<Maybe<Prices>>>;
+  pricesConnection?: Maybe<PricesConnection>;
   files?: Maybe<Array<Maybe<UploadFile>>>;
   filesConnection?: Maybe<UploadFileConnection>;
   role?: Maybe<UsersPermissionsRole>;
@@ -564,6 +785,52 @@ export type QueryItemsArgs = {
 
 
 export type QueryItemsConnectionArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+
+export type QueryPriceTypeArgs = {
+  id: Scalars['ID'];
+  publicationState?: Maybe<PublicationState>;
+};
+
+
+export type QueryPriceTypesArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+  publicationState?: Maybe<PublicationState>;
+};
+
+
+export type QueryPriceTypesConnectionArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+};
+
+
+export type QueryPriceArgs = {
+  id: Scalars['ID'];
+  publicationState?: Maybe<PublicationState>;
+};
+
+
+export type QueryPricesArgs = {
+  sort?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+  start?: Maybe<Scalars['Int']>;
+  where?: Maybe<Scalars['JSON']>;
+  publicationState?: Maybe<PublicationState>;
+};
+
+
+export type QueryPricesConnectionArgs = {
   sort?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Int']>;
   start?: Maybe<Scalars['Int']>;
@@ -1110,6 +1377,24 @@ export type CreateItemPicturePayload = {
   itemPicture?: Maybe<ItemPictures>;
 };
 
+export type CreatePriceInput = {
+  data?: Maybe<PriceInput>;
+};
+
+export type CreatePricePayload = {
+  __typename?: 'createPricePayload';
+  price?: Maybe<Prices>;
+};
+
+export type CreatePriceTypeInput = {
+  data?: Maybe<PriceTypeInput>;
+};
+
+export type CreatePriceTypePayload = {
+  __typename?: 'createPriceTypePayload';
+  priceType?: Maybe<PriceTypes>;
+};
+
 export type CreateRoleInput = {
   data?: Maybe<RoleInput>;
 };
@@ -1164,6 +1449,24 @@ export type DeleteItemPicturePayload = {
   itemPicture?: Maybe<ItemPictures>;
 };
 
+export type DeletePriceInput = {
+  where?: Maybe<InputId>;
+};
+
+export type DeletePricePayload = {
+  __typename?: 'deletePricePayload';
+  price?: Maybe<Prices>;
+};
+
+export type DeletePriceTypeInput = {
+  where?: Maybe<InputId>;
+};
+
+export type DeletePriceTypePayload = {
+  __typename?: 'deletePriceTypePayload';
+  priceType?: Maybe<PriceTypes>;
+};
+
 export type DeleteRoleInput = {
   where?: Maybe<InputId>;
 };
@@ -1214,6 +1517,7 @@ export type EditItemInput = {
   description?: Maybe<Scalars['String']>;
   item_picture?: Maybe<Scalars['ID']>;
   item_group?: Maybe<Scalars['ID']>;
+  prices?: Maybe<Array<Maybe<Scalars['ID']>>>;
   published_at?: Maybe<Scalars['DateTime']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
@@ -1221,6 +1525,21 @@ export type EditItemInput = {
 
 export type EditItemPictureInput = {
   pictures?: Maybe<Array<Maybe<Scalars['ID']>>>;
+  published_at?: Maybe<Scalars['DateTime']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type EditPriceInput = {
+  price?: Maybe<Scalars['Float']>;
+  price_type?: Maybe<Scalars['ID']>;
+  published_at?: Maybe<Scalars['DateTime']>;
+  created_by?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type EditPriceTypeInput = {
+  name?: Maybe<Scalars['String']>;
   published_at?: Maybe<Scalars['DateTime']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
@@ -1278,6 +1597,26 @@ export type UpdateItemPictureInput = {
 export type UpdateItemPicturePayload = {
   __typename?: 'updateItemPicturePayload';
   itemPicture?: Maybe<ItemPictures>;
+};
+
+export type UpdatePriceInput = {
+  where?: Maybe<InputId>;
+  data?: Maybe<EditPriceInput>;
+};
+
+export type UpdatePricePayload = {
+  __typename?: 'updatePricePayload';
+  price?: Maybe<Prices>;
+};
+
+export type UpdatePriceTypeInput = {
+  where?: Maybe<InputId>;
+  data?: Maybe<EditPriceTypeInput>;
+};
+
+export type UpdatePriceTypePayload = {
+  __typename?: 'updatePriceTypePayload';
+  priceType?: Maybe<PriceTypes>;
 };
 
 export type UpdateRoleInput = {
@@ -1367,7 +1706,10 @@ export type ItemListFieldsFragment = (
       { __typename?: 'UploadFile' }
       & Pick<UploadFile, 'url' | 'previewUrl'>
     )>>> }
-  )>, item_group?: Maybe<(
+  )>, prices?: Maybe<Array<Maybe<(
+    { __typename?: 'Prices' }
+    & Pick<Prices, 'price'>
+  )>>>, item_group?: Maybe<(
     { __typename?: 'ItemGroups' }
     & Pick<ItemGroups, 'id'>
   )> }
@@ -1415,6 +1757,9 @@ export const ItemListFieldsFragmentDoc = gql`
       url
       previewUrl
     }
+  }
+  prices {
+    price
   }
   item_group {
     id

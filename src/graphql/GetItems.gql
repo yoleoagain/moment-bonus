@@ -8,6 +8,9 @@ fragment ItemListFields on Items {
       previewUrl
     }
   }
+  prices{
+    price
+  }
   item_group{
     id
   }
