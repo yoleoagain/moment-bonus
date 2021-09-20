@@ -1639,6 +1639,17 @@ export type UpdateUserPayload = {
   user?: Maybe<UsersPermissionsUser>;
 };
 
+export type GetGroupsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetGroupsQuery = (
+  { __typename?: 'Query' }
+  & { itemGroups?: Maybe<Array<Maybe<(
+    { __typename?: 'ItemGroups' }
+    & Pick<ItemGroups, 'id' | 'name'>
+  )>>> }
+);
+
 export type ItemAddedSubscriptionVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -1684,17 +1695,6 @@ export type DeleteItemMutation = (
       & Pick<Items, 'name' | 'description'>
     )> }
   )> }
-);
-
-export type GetGroupsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetGroupsQuery = (
-  { __typename?: 'Query' }
-  & { itemGroups?: Maybe<Array<Maybe<(
-    { __typename?: 'ItemGroups' }
-    & Pick<ItemGroups, 'id' | 'name'>
-  )>>> }
 );
 
 export type ItemListFieldsFragment = (
@@ -1748,6 +1748,17 @@ export type UpdateItemMutation = (
   )> }
 );
 
+export type GetPriceTypesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPriceTypesQuery = (
+  { __typename?: 'Query' }
+  & { priceTypes?: Maybe<Array<Maybe<(
+    { __typename?: 'PriceTypes' }
+    & Pick<PriceTypes, 'name'>
+  )>>> }
+);
+
 export const ItemListFieldsFragmentDoc = gql`
     fragment ItemListFields on Items {
   id
@@ -1764,6 +1775,14 @@ export const ItemListFieldsFragmentDoc = gql`
   }
   item_group {
     id
+  }
+}
+    `;
+export const GetGroupsDoc = gql`
+    query GetGroups {
+  itemGroups {
+    id
+    name
   }
 }
     `;
@@ -1798,14 +1817,6 @@ export const DeleteItemDoc = gql`
   }
 }
     `;
-export const GetGroupsDoc = gql`
-    query GetGroups {
-  itemGroups {
-    id
-    name
-  }
-}
-    `;
 export const GetItemsDoc = gql`
     query GetItems($sort: String, $where: JSON!) {
   items(sort: $sort, where: $where) {
@@ -1824,41 +1835,13 @@ export const UpdateItemDoc = gql`
   }
 }
     `;
-export const ItemAdded = (
-            options: Omit<SubscriptionOptions<ItemAddedSubscriptionVariables>, "query">
-          ) => {
-            const q = client.subscribe<ItemAddedSubscription, ItemAddedSubscriptionVariables>(
-              {
-                query: ItemAddedDoc,
-                ...options,
-              }
-            )
-            return q;
-          }
-export const addItem = (
-            options: Omit<
-              MutationOptions<any, AddItemMutationVariables>, 
-              "mutation"
-            >
-          ) => {
-            const m = client.mutate<AddItemMutation, AddItemMutationVariables>({
-              mutation: AddItemDoc,
-              ...options,
-            });
-            return m;
-          }
-export const deleteItem = (
-            options: Omit<
-              MutationOptions<any, DeleteItemMutationVariables>, 
-              "mutation"
-            >
-          ) => {
-            const m = client.mutate<DeleteItemMutation, DeleteItemMutationVariables>({
-              mutation: DeleteItemDoc,
-              ...options,
-            });
-            return m;
-          }
+export const GetPriceTypesDoc = gql`
+    query GetPriceTypes {
+  priceTypes {
+    name
+  }
+}
+    `;
 export const GetGroups = (
             options: Omit<
               QueryOptions<GetGroupsQueryVariables>, 
@@ -1894,6 +1877,41 @@ export const GetGroups = (
             return result;
           }
         
+export const ItemAdded = (
+            options: Omit<SubscriptionOptions<ItemAddedSubscriptionVariables>, "query">
+          ) => {
+            const q = client.subscribe<ItemAddedSubscription, ItemAddedSubscriptionVariables>(
+              {
+                query: ItemAddedDoc,
+                ...options,
+              }
+            )
+            return q;
+          }
+export const addItem = (
+            options: Omit<
+              MutationOptions<any, AddItemMutationVariables>, 
+              "mutation"
+            >
+          ) => {
+            const m = client.mutate<AddItemMutation, AddItemMutationVariables>({
+              mutation: AddItemDoc,
+              ...options,
+            });
+            return m;
+          }
+export const deleteItem = (
+            options: Omit<
+              MutationOptions<any, DeleteItemMutationVariables>, 
+              "mutation"
+            >
+          ) => {
+            const m = client.mutate<DeleteItemMutation, DeleteItemMutationVariables>({
+              mutation: DeleteItemDoc,
+              ...options,
+            });
+            return m;
+          }
 export const GetItems = (
             options: Omit<
               QueryOptions<GetItemsQueryVariables>, 
@@ -1941,3 +1959,38 @@ export const updateItem = (
             });
             return m;
           }
+export const GetPriceTypes = (
+            options: Omit<
+              QueryOptions<GetPriceTypesQueryVariables>, 
+              "query"
+            >
+          ): Readable<
+            ApolloQueryResult<GetPriceTypesQuery> & {
+              query: ObservableQuery<
+                GetPriceTypesQuery,
+                GetPriceTypesQueryVariables
+              >;
+            }
+          > => {
+            const q = client.watchQuery({
+              query: GetPriceTypesDoc,
+              ...options,
+            });
+            var result = readable<
+              ApolloQueryResult<GetPriceTypesQuery> & {
+                query: ObservableQuery<
+                  GetPriceTypesQuery,
+                  GetPriceTypesQueryVariables
+                >;
+              }
+            >(
+              { data: null, loading: true, error: null, networkStatus: 1, query: null },
+              (set) => {
+                q.subscribe((v) => {
+                  set({ ...v, query: q });
+                });
+              }
+            );
+            return result;
+          }
+        
