@@ -2,8 +2,10 @@
   import type { ItemListFieldsFragment } from '../../codegen'
   import { fetchItems, search } from '../../stores/queries/items'
   import { activeGroupID } from '../../stores/queries/groups'
-  import { addItem, updateItem, deleteItem } from 'src/codegen'
+  import { addItem, updateItem, deleteItem, GetPriceTypes } from 'src/codegen'
   import { editItemStore } from '../../stores/queries/items'
+  import Select from 'svelte-select'
+  import { onMount } from 'svelte'
 
   function remove(e) {
     e.stopPropagation()
@@ -14,6 +16,7 @@
       }).then((res) => editItemStore.set(null))
     }
   }
+  $: priceTypes = GetPriceTypes({})
 
   $: refetchQueries = fetchItems()
 
@@ -71,9 +74,9 @@
       />
     </div>
   </div>
-  <div class="field">
-    <label for="name" class="label">Price:</label>
-    <div class="control">
+  <div class="field has-addons">
+    <!-- <label for="name" class="label">Price:</label> -->
+    <p class="control">
       <input
         bind:value={price}
         name="name"
@@ -82,7 +85,14 @@
         type="text"
         inputmode="numeric"
       />
-    </div>
+    </p>
+    <p class="control">
+      <select value="1" class="select">
+        {#each $priceTypes.data?.priceTypes || [] as p}
+          <option value={p.id}>{p.name}</option>
+        {/each}
+      </select>
+    </p>
   </div>
   <div class="field">
     <label for="name" class="label">Description:</label>

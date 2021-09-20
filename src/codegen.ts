@@ -1755,7 +1755,7 @@ export type GetPriceTypesQuery = (
   { __typename?: 'Query' }
   & { priceTypes?: Maybe<Array<Maybe<(
     { __typename?: 'PriceTypes' }
-    & Pick<PriceTypes, 'name'>
+    & Pick<PriceTypes, 'name' | 'id'>
   )>>> }
 );
 
@@ -1839,6 +1839,7 @@ export const GetPriceTypesDoc = gql`
     query GetPriceTypes {
   priceTypes {
     name
+    id
   }
 }
     `;
