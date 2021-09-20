@@ -74,7 +74,7 @@
       <div class="row">
         <div
           style="width: 100%;"
-          class="buttons is-flex align-items-end is-justify-content-end control-wrap"
+          class="buttons is-flex align-items-end is-justify-content-end"
         />
 
         {#if $query.loading}
@@ -92,9 +92,6 @@
   .products-wrap {
     height: calc(100vh - 210px);
     overflow-y: auto;
-  }
-  .control-wrap {
-    margin-top: var(--theme-gap-half);
   }
   .items-wrap {
     padding: var(--theme-gap-main);
