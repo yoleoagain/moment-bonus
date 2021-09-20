@@ -26,7 +26,7 @@
     </div>
     <div>
       <span>
-        {item.prices.length === 0 ? '0.00' : item.prices[0]} RUB
+        {(item?.prices || []).length === 0 ? '0.00' : item.prices[0]} RUB
       </span>
     </div>
   </div>

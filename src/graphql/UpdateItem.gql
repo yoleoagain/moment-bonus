@@ -1,12 +1,22 @@
-mutation updateItem($id: ID!, $name: String, $description: String){
+mutation updateItem(
+  $id: ID!
+  $name: String
+  $description: String
+  $price: [ID]
+) {
   updateItem(
-    input: { 
+    input: {
       where: { id: $id }
-      data: { name: $name, description: $description, created_by: 1 }
+      data: {
+        name: $name
+        description: $description
+        created_by: 1
+        prices: $price
+      }
     }
   ) {
-      item{
-          name
-      }
+    item {
+      name
+    }
   }
 }

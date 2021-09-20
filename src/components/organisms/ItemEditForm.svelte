@@ -18,6 +18,7 @@
   $: refetchQueries = fetchItems()
 
   let item: ItemListFieldsFragment = null
+  let price = (item?.prices || []).length === 0 ? '0.00' : item.prices[0]
   let error = ''
 
   editItemStore.subscribe((value) => {
@@ -66,7 +67,20 @@
         name="name"
         class="input"
         type="text"
-        placeholder="Text input"
+        placeholder="Введите имя"
+      />
+    </div>
+  </div>
+  <div class="field">
+    <label for="name" class="label">Price:</label>
+    <div class="control">
+      <input
+        bind:value={price}
+        name="name"
+        class="input"
+        placeholder="0.00"
+        type="text"
+        inputmode="numeric"
       />
     </div>
   </div>

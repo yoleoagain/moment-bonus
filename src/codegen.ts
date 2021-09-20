@@ -1733,6 +1733,7 @@ export type UpdateItemMutationVariables = Exact<{
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
+  price?: Maybe<Array<Maybe<Scalars['ID']>> | Maybe<Scalars['ID']>>;
 }>;
 
 
@@ -1813,9 +1814,9 @@ export const GetItemsDoc = gql`
 }
     ${ItemListFieldsFragmentDoc}`;
 export const UpdateItemDoc = gql`
-    mutation updateItem($id: ID!, $name: String, $description: String) {
+    mutation updateItem($id: ID!, $name: String, $description: String, $price: [ID]) {
   updateItem(
-    input: {where: {id: $id}, data: {name: $name, description: $description, created_by: 1}}
+    input: {where: {id: $id}, data: {name: $name, description: $description, created_by: 1, prices: $price}}
   ) {
     item {
       name
