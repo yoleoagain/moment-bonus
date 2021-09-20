@@ -1,6 +1,5 @@
 <script lang="ts">
-  import type { Items, ItemListFieldsFragment } from '../../codegen'
-  import { deleteItem } from '../../codegen'
+  import type { ItemListFieldsFragment } from '../../codegen'
   import { editItemStore, fetchItems, search } from '../../stores/queries/items'
 
   export let item: ItemListFieldsFragment | null
@@ -14,29 +13,23 @@
   function edit() {
     editItemStore.set(item)
   }
-
-  function remove(e) {
-    e.stopPropagation()
-    if (item) {
-      deleteItem({
-        refetchQueries: fetchItems(),
-        variables: { id: item.id },
-      }).then((res) => editItemStore.set(null))
-    }
-  }
 </script>
 
 <div class="item p-3" on:click={edit}>
-  <div class="product-info__wrap">
-    <img src={picture || noImage} alt={$editItemStore?.name} />
-    <div class="ml-2 is-flex-direction-column is-flex">
-      <span>{item.name}</span>
-      <span class="item-description">{item.description}</span>
+  <div class="product-info__wrap is-flex is-justify-content-space-between">
+    <div class="is-flex">
+      <img src={picture || noImage} alt={$editItemStore?.name} />
+      <div class="ml-2 is-flex-direction-column is-flex">
+        <span>{item.name}</span>
+        <span class="item-description">{item.description}</span>
+      </div>
+    </div>
+    <div>
+      <span>
+        {item.prices.length === 0 ? '0.00' : item.prices[0]} RUB
+      </span>
     </div>
   </div>
-  <button class="button" on:click={remove}>
-    <i class="fas fa-trash" />
-  </button>
 </div>
 
 <style>

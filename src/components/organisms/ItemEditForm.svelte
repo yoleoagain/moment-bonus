@@ -1,9 +1,19 @@
 <script lang="ts">
   import type { ItemListFieldsFragment } from '../../codegen'
-  import { fetchItems } from '../../stores/queries/items'
+  import { fetchItems, search } from '../../stores/queries/items'
   import { activeGroupID } from '../../stores/queries/groups'
-  import { addItem, updateItem } from 'src/codegen'
+  import { addItem, updateItem, deleteItem } from 'src/codegen'
   import { editItemStore } from '../../stores/queries/items'
+
+  function remove(e) {
+    e.stopPropagation()
+    if (item) {
+      deleteItem({
+        refetchQueries: fetchItems(),
+        variables: { id: item.id },
+      }).then((res) => editItemStore.set(null))
+    }
+  }
 
   $: refetchQueries = fetchItems()
 
@@ -89,6 +99,11 @@
     </div>
     <div class="control">
       <button class="button is-light" on:click={close}>Cancel</button>
+    </div>
+    <div class="control">
+      <button class="button" on:click={remove}>
+        <i class="fas fa-trash" />
+      </button>
     </div>
   </div>
 </form>
