@@ -29,9 +29,9 @@
 <div class="item p-3" on:click={edit}>
   <div class="product-info__wrap">
     <img src={picture || noImage} alt={$editItemStore?.name} />
-    <div class="ml-2 is-flex-direction-column">
-      <span class=" item_name">{item.name}</span>
-      <span class="ml-2 item_name">{`group_id: ${item?.item_group?.id}`}</span>
+    <div class="ml-2 is-flex-direction-column is-flex">
+      <span>{item.name}</span>
+      <span class="item-description">{item.description}</span>
     </div>
   </div>
   <button class="button" on:click={remove}>
@@ -49,6 +49,9 @@
     background: var(--theme-mainAccentBackground);
     color: var(--theme-primaryFont);
     cursor: pointer;
+  }
+  .item-description {
+    color: var(--theme-secondaryFont);
   }
   .item:not(:first-child) {
     margin-top: var(--theme-gap-half);

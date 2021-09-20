@@ -2,6 +2,7 @@ type Colors = 'primaryBackground' |
   'mainAccentBackground' |
   'hoveredBackground' |
   'primaryFont' |
+  'secondaryFont' |
   'highlitsColor' |
   'invertPrimaryBackground' |
   'borderColor'
@@ -14,6 +15,7 @@ const dark: Pallete = {
   mainAccentBackground: '#524f4e',
   hoveredBackground: '#555555',
   primaryFont: '#ffffff',
+  secondaryFont: '#ada4a4',
   highlitsColor: '#ff3e00',
   borderColor: '#7b7472'
 }
@@ -24,6 +26,7 @@ const light: Pallete = {
   mainAccentBackground: '#eee',
   hoveredBackground: '#534343',
   primaryFont: '#534343',
+  secondaryFont: '#ada4a4',
   highlitsColor: '#ff3e00',
   borderColor: '#7b7472'
 }
