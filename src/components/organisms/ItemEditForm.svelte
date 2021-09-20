@@ -18,7 +18,7 @@
   $: refetchQueries = fetchItems()
 
   let item: ItemListFieldsFragment = null
-  let price = (item?.prices || []).length === 0 ? '0.00' : item.prices[0]
+  let price = (item?.prices || []).length === 0 ? '0.00' : item.prices[0].price
   let error = ''
 
   editItemStore.subscribe((value) => {
