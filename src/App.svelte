@@ -67,4 +67,7 @@
   :global(body) {
     overflow-y: hidden;
   }
+  :global(.listGroupTitle) {
+    display: none;
+  }
 </style>

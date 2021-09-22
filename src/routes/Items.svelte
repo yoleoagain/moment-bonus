@@ -21,15 +21,18 @@
   $: groups = GetGroups({})
   $: groupOptions = [
     ...[
-      { value: null, label: 'Все' }, // Show all products
+      { value: 0, label: 'Все' }, // Show all products
       ...($groups?.data?.itemGroups || []).map((g) => ({
-        value: g.id,
-        label: g.name,
+        value: +g.id, // TODO: Find why Int fields returns as strings
+        label: g.name, // And Select supports only 1 lvl nesting :(
+        group: +(g?.parent_group_id || 0),
       })),
     ],
   ]
   $: activeGroupOption =
     groupOptions.find((g) => +g.value === $activeGroupID) || groupOptions[0]
+
+  const groupBy = (itm) => itm.group
 
   let activeItem: ItemListFieldsFragment | null = null
   let { theme } = getContext('theme')
@@ -46,6 +49,7 @@
     <ItemEditForm />
   </Modal>
 {/if}
+
 <div class="items-wrap is-flex-direction-column is-flex">
   <div class="is-flex-direction-row is-flex is-justify-content-center mb-3">
     <input
@@ -64,6 +68,7 @@
     on:select={(e) => {
       activeGroupID.update((v) => +e.detail.value)
     }}
+    {groupBy}
     items={groupOptions}
     value={activeGroupOption}
     isClearable={false}
@@ -80,6 +85,7 @@
         {#if $query.loading}
           <Wave size="100" color={$theme.palette.highlitsColor} unit="px" />
         {/if}
+
         <div class="products-wrap">
           {#each $query.data?.items || [] as item}<Item {item} />{/each}
         </div>

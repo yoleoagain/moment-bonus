@@ -2,5 +2,6 @@
   itemGroups {
     id
     name
+    parent_group_id
   }
 }

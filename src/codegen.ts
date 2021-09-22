@@ -72,6 +72,7 @@ export type InputId = {
 
 export type ItemGroupInput = {
   name?: Maybe<Scalars['String']>;
+  parent_group_id?: Maybe<Scalars['Int']>;
   published_at?: Maybe<Scalars['DateTime']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
@@ -83,6 +84,7 @@ export type ItemGroups = {
   created_at: Scalars['DateTime'];
   updated_at: Scalars['DateTime'];
   name?: Maybe<Scalars['String']>;
+  parent_group_id: Scalars['Int'];
   published_at?: Maybe<Scalars['DateTime']>;
 };
 
@@ -90,6 +92,30 @@ export type ItemGroupsAggregator = {
   __typename?: 'ItemGroupsAggregator';
   count?: Maybe<Scalars['Int']>;
   totalCount?: Maybe<Scalars['Int']>;
+  sum?: Maybe<ItemGroupsAggregatorSum>;
+  avg?: Maybe<ItemGroupsAggregatorAvg>;
+  min?: Maybe<ItemGroupsAggregatorMin>;
+  max?: Maybe<ItemGroupsAggregatorMax>;
+};
+
+export type ItemGroupsAggregatorAvg = {
+  __typename?: 'ItemGroupsAggregatorAvg';
+  parent_group_id?: Maybe<Scalars['Float']>;
+};
+
+export type ItemGroupsAggregatorMax = {
+  __typename?: 'ItemGroupsAggregatorMax';
+  parent_group_id?: Maybe<Scalars['Float']>;
+};
+
+export type ItemGroupsAggregatorMin = {
+  __typename?: 'ItemGroupsAggregatorMin';
+  parent_group_id?: Maybe<Scalars['Float']>;
+};
+
+export type ItemGroupsAggregatorSum = {
+  __typename?: 'ItemGroupsAggregatorSum';
+  parent_group_id?: Maybe<Scalars['Float']>;
 };
 
 export type ItemGroupsConnection = {
@@ -117,6 +143,12 @@ export type ItemGroupsConnectionName = {
   connection?: Maybe<ItemGroupsConnection>;
 };
 
+export type ItemGroupsConnectionParent_Group_Id = {
+  __typename?: 'ItemGroupsConnectionParent_group_id';
+  key?: Maybe<Scalars['Int']>;
+  connection?: Maybe<ItemGroupsConnection>;
+};
+
 export type ItemGroupsConnectionPublished_At = {
   __typename?: 'ItemGroupsConnectionPublished_at';
   key?: Maybe<Scalars['DateTime']>;
@@ -135,6 +167,7 @@ export type ItemGroupsGroupBy = {
   created_at?: Maybe<Array<Maybe<ItemGroupsConnectionCreated_At>>>;
   updated_at?: Maybe<Array<Maybe<ItemGroupsConnectionUpdated_At>>>;
   name?: Maybe<Array<Maybe<ItemGroupsConnectionName>>>;
+  parent_group_id?: Maybe<Array<Maybe<ItemGroupsConnectionParent_Group_Id>>>;
   published_at?: Maybe<Array<Maybe<ItemGroupsConnectionPublished_At>>>;
 };
 
@@ -314,7 +347,7 @@ export type ItemsGroupBy = {
 
 
 
-export type Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | ItemGroups | ItemGroupsConnection | ItemGroupsAggregator | ItemGroupsGroupBy | ItemGroupsConnectionId | ItemGroupsConnectionCreated_At | ItemGroupsConnectionUpdated_At | ItemGroupsConnectionName | ItemGroupsConnectionPublished_At | CreateItemGroupPayload | UpdateItemGroupPayload | DeleteItemGroupPayload | ItemPictures | ItemPicturesConnection | ItemPicturesAggregator | ItemPicturesGroupBy | ItemPicturesConnectionId | ItemPicturesConnectionCreated_At | ItemPicturesConnectionUpdated_At | ItemPicturesConnectionPublished_At | CreateItemPicturePayload | UpdateItemPicturePayload | DeleteItemPicturePayload | Items | ItemsConnection | ItemsAggregator | ItemsGroupBy | ItemsConnectionId | ItemsConnectionCreated_At | ItemsConnectionUpdated_At | ItemsConnectionName | ItemsConnectionDescription | ItemsConnectionItem_Picture | ItemsConnectionItem_Group | ItemsConnectionPublished_At | CreateItemPayload | UpdateItemPayload | DeleteItemPayload | PriceTypes | PriceTypesConnection | PriceTypesAggregator | PriceTypesGroupBy | PriceTypesConnectionId | PriceTypesConnectionCreated_At | PriceTypesConnectionUpdated_At | PriceTypesConnectionName | PriceTypesConnectionPublished_At | CreatePriceTypePayload | UpdatePriceTypePayload | DeletePriceTypePayload | Prices | PricesConnection | PricesAggregator | PricesAggregatorSum | PricesAggregatorAvg | PricesAggregatorMin | PricesAggregatorMax | PricesGroupBy | PricesConnectionId | PricesConnectionCreated_At | PricesConnectionUpdated_At | PricesConnectionPrice | PricesConnectionPrice_Type | PricesConnectionPublished_At | CreatePricePayload | UpdatePricePayload | DeletePricePayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_At | UploadFileConnectionUpdated_At | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | DeleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | CreateRolePayload | UpdateRolePayload | DeleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_At | UsersPermissionsUserConnectionUpdated_At | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | CreateUserPayload | UpdateUserPayload | DeleteUserPayload;
+export type Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | ItemGroups | ItemGroupsConnection | ItemGroupsAggregator | ItemGroupsAggregatorSum | ItemGroupsAggregatorAvg | ItemGroupsAggregatorMin | ItemGroupsAggregatorMax | ItemGroupsGroupBy | ItemGroupsConnectionId | ItemGroupsConnectionCreated_At | ItemGroupsConnectionUpdated_At | ItemGroupsConnectionName | ItemGroupsConnectionParent_Group_Id | ItemGroupsConnectionPublished_At | CreateItemGroupPayload | UpdateItemGroupPayload | DeleteItemGroupPayload | ItemPictures | ItemPicturesConnection | ItemPicturesAggregator | ItemPicturesGroupBy | ItemPicturesConnectionId | ItemPicturesConnectionCreated_At | ItemPicturesConnectionUpdated_At | ItemPicturesConnectionPublished_At | CreateItemPicturePayload | UpdateItemPicturePayload | DeleteItemPicturePayload | Items | ItemsConnection | ItemsAggregator | ItemsGroupBy | ItemsConnectionId | ItemsConnectionCreated_At | ItemsConnectionUpdated_At | ItemsConnectionName | ItemsConnectionDescription | ItemsConnectionItem_Picture | ItemsConnectionItem_Group | ItemsConnectionPublished_At | CreateItemPayload | UpdateItemPayload | DeleteItemPayload | PriceTypes | PriceTypesConnection | PriceTypesAggregator | PriceTypesGroupBy | PriceTypesConnectionId | PriceTypesConnectionCreated_At | PriceTypesConnectionUpdated_At | PriceTypesConnectionName | PriceTypesConnectionPublished_At | CreatePriceTypePayload | UpdatePriceTypePayload | DeletePriceTypePayload | Prices | PricesConnection | PricesAggregator | PricesAggregatorSum | PricesAggregatorAvg | PricesAggregatorMin | PricesAggregatorMax | PricesGroupBy | PricesConnectionId | PricesConnectionCreated_At | PricesConnectionUpdated_At | PricesConnectionPrice | PricesConnectionPrice_Type | PricesConnectionPublished_At | CreatePricePayload | UpdatePricePayload | DeletePricePayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_At | UploadFileConnectionUpdated_At | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | DeleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | CreateRolePayload | UpdateRolePayload | DeleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_At | UsersPermissionsUserConnectionUpdated_At | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | CreateUserPayload | UpdateUserPayload | DeleteUserPayload;
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -1507,6 +1540,7 @@ export type EditFileInput = {
 
 export type EditItemGroupInput = {
   name?: Maybe<Scalars['String']>;
+  parent_group_id?: Maybe<Scalars['Int']>;
   published_at?: Maybe<Scalars['DateTime']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
@@ -1646,7 +1680,7 @@ export type GetGroupsQuery = (
   { __typename?: 'Query' }
   & { itemGroups?: Maybe<Array<Maybe<(
     { __typename?: 'ItemGroups' }
-    & Pick<ItemGroups, 'id' | 'name'>
+    & Pick<ItemGroups, 'id' | 'name' | 'parent_group_id'>
   )>>> }
 );
 
@@ -1783,6 +1817,7 @@ export const GetGroupsDoc = gql`
   itemGroups {
     id
     name
+    parent_group_id
   }
 }
     `;
