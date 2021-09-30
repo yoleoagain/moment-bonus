@@ -21,7 +21,7 @@
   $: groups = GetGroups({})
   $: groupOptions = [
     ...[
-      { value: 0, label: 'Все' }, // Show all products
+      { value: 0, label: 'Все товары' }, // Show all products
       ...($groups?.data?.itemGroups || []).map((g) => ({
         value: +g.id, // TODO: Find why Int fields returns as strings
         label: g.name, // And Select supports only 1 lvl nesting :(

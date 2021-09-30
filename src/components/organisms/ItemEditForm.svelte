@@ -74,10 +74,11 @@
       />
     </div>
   </div>
+  <label for="name" class="label">Цена и тип цены:</label>
   <div class="field has-addons">
-    <!-- <label for="name" class="label">Price:</label> -->
     <p class="control">
       <input
+        style=""
         bind:value={price}
         name="name"
         class="input"
@@ -87,11 +88,22 @@
       />
     </p>
     <p class="control">
-      <select value="1" class="select">
-        {#each $priceTypes.data?.priceTypes || [] as p}
-          <option value={p.id}>{p.name}</option>
-        {/each}
-      </select>
+      <input
+        style="max-width: 60px;"
+        class="input"
+        maxlength="3"
+        value="RUB"
+        disabled
+      />
+    </p>
+    <p class="control">
+      <span class="select">
+        <select id="price_type_select" value="1" class="select">
+          {#each $priceTypes.data?.priceTypes || [] as p}
+            <option value={p.id}>{p.name}</option>
+          {/each}
+        </select>
+      </span>
     </p>
   </div>
   <div class="field">
