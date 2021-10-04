@@ -1,17 +1,12 @@
 ﻿<script lang="ts">
-  import type { Pallete } from '../../components/theme/palettes'
   import type { NumberHashMap, StringHashMap } from '../../types/common'
+  import type { Theme } from './context'
   import { setContext, onMount } from 'svelte'
   import { writable } from 'svelte/store'
   import palettes from '../../components/theme/palettes'
   import paddings from '../../components/theme/paddings'
   import { getBrowserTheme } from '../../utils/browser'
 
-  type Theme = {
-    mode: 'dark' | 'light'
-    palette: Pallete
-    paddings: NumberHashMap
-  }
   let mode = getBrowserTheme()
   let theme = writable<Theme>({
     mode,
