@@ -1673,6 +1673,11 @@ export type UpdateUserPayload = {
   user?: Maybe<UsersPermissionsUser>;
 };
 
+export type ItemGroupsFragment = (
+  { __typename?: 'ItemGroups' }
+  & Pick<ItemGroups, 'id' | 'name' | 'parent_group_id'>
+);
+
 export type GetGroupsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1680,7 +1685,7 @@ export type GetGroupsQuery = (
   { __typename?: 'Query' }
   & { itemGroups?: Maybe<Array<Maybe<(
     { __typename?: 'ItemGroups' }
-    & Pick<ItemGroups, 'id' | 'name' | 'parent_group_id'>
+    & ItemGroupsFragment
   )>>> }
 );
 
@@ -1793,6 +1798,13 @@ export type GetPriceTypesQuery = (
   )>>> }
 );
 
+export const ItemGroupsFragmentDoc = gql`
+    fragment ItemGroups on ItemGroups {
+  id
+  name
+  parent_group_id
+}
+    `;
 export const ItemListFieldsFragmentDoc = gql`
     fragment ItemListFields on Items {
   id
@@ -1815,12 +1827,10 @@ export const ItemListFieldsFragmentDoc = gql`
 export const GetGroupsDoc = gql`
     query GetGroups {
   itemGroups {
-    id
-    name
-    parent_group_id
+    ...ItemGroups
   }
 }
-    `;
+    ${ItemGroupsFragmentDoc}`;
 export const ItemAddedDoc = gql`
     subscription ItemAdded($id: ID!) {
   itemAdded(id: $id) {

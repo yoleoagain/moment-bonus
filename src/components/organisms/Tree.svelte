@@ -4,16 +4,16 @@
 
   export let tree: Tree<ItemGroups>
   export let onClick: (branch: Tree<ItemGroups>) => void = (tree) => {}
+  console.log('tree', tree)
 </script>
 
 <ul on:click={() => onClick(tree)} class="tree">
-  {#each tree.children as el}
-    {#if tree.children}
+  <li>{tree.data.name}</li>
+  {#if tree.children}
+    {#each tree.children as el}
       <svelte:self tree={el} />
-    {:else}
-      <li>{el.data.name}</li>
-    {/if}
-  {/each}
+    {/each}
+  {/if}
 </ul>
 
 <style>

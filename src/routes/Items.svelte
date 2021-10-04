@@ -1,9 +1,10 @@
 <script lang="ts">
-  import type { ItemListFieldsFragment, ItemGroups } from 'src/codegen'
+  import type { ItemListFieldsFragment, ItemGroupsFragment } from 'src/codegen'
+  import type { Tree } from '../types/common'
   import Item from '../components/atoms/Item.svelte'
   import Modal from '../components/templates/Modal.svelte'
   import ItemEditForm from '../components/organisms/ItemEditForm.svelte'
-  import Tree from '../components/organisms/Tree.svelte'
+  import TreeCMT from '../components/organisms/Tree.svelte'
   import { editItemStore, where } from '../stores/queries/items'
   import { baseItem } from '../stores/queries/items'
   import { getContext } from 'svelte'
@@ -13,6 +14,7 @@
   import { Wave } from 'svelte-loading-spinners'
   import { stratify } from 'd3-hierarchy'
 
+  const allGroup = { name: 'Все товары', id: '0', parent_group_id: 0 }
   $: query = GetItems({
     variables: {
       sort: 'created_at:DESC',
@@ -20,9 +22,18 @@
     },
   })
   $: groups = GetGroups({})
-  $: groupsTree = stratify().parentId((d) => d.parent_group_id)(
-    $groups?.data?.itemGroups || []
-  )
+  $: groupsData = $groups?.data?.itemGroups || []
+
+  $: groupsTree =
+    groupsData.length > 0
+      ? stratify().parentId((d) => d.parent_group_id)(groupsData)
+      : ({
+          data: allGroup,
+          id: allGroup.id,
+          children: null,
+          depth: 0,
+          parent: null,
+        } as Tree<ItemGroupsFragment>)
 
   let activeItem: ItemListFieldsFragment | null = null
   let { theme } = getContext('theme')
@@ -54,7 +65,7 @@
     </button>
   </div>
 
-  <Tree tree={groupsTree} />
+  <TreeCMT tree={groupsTree} />
 
   <main class="cards">
     <div class="cards-subwrap">
