@@ -70,4 +70,8 @@
   :global(.listGroupTitle) {
     display: none;
   }
+
+  :global(ul) {
+    color: var(--theme-primaryFont) !important;
+  }
 </style>

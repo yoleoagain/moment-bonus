@@ -1,8 +1,9 @@
 <script lang="ts">
-  import type { ItemListFieldsFragment } from 'src/codegen'
+  import type { ItemListFieldsFragment, ItemGroups } from 'src/codegen'
   import Item from '../components/atoms/Item.svelte'
   import Modal from '../components/templates/Modal.svelte'
   import ItemEditForm from '../components/organisms/ItemEditForm.svelte'
+  import Tree from '../components/organisms/Tree.svelte'
   import { editItemStore, where } from '../stores/queries/items'
   import { baseItem } from '../stores/queries/items'
   import { getContext } from 'svelte'
@@ -10,7 +11,7 @@
   import { search } from '../stores/queries/items'
   import { activeGroupID } from '../stores/queries/groups'
   import { Wave } from 'svelte-loading-spinners'
-  import Select from 'svelte-select'
+  import { stratify } from 'd3-hierarchy'
 
   $: query = GetItems({
     variables: {
@@ -19,20 +20,9 @@
     },
   })
   $: groups = GetGroups({})
-  $: groupOptions = [
-    ...[
-      { value: 0, label: 'Все товары' }, // Show all products
-      ...($groups?.data?.itemGroups || []).map((g) => ({
-        value: +g.id, // TODO: Find why Int fields returns as strings
-        label: g.name, // And Select supports only 1 lvl nesting :(
-        group: +(g?.parent_group_id || 0),
-      })),
-    ],
-  ]
-  $: activeGroupOption =
-    groupOptions.find((g) => +g.value === $activeGroupID) || groupOptions[0]
-
-  const groupBy = (itm) => itm.group
+  $: groupsTree = stratify().parentId((d) => d.parent_group_id)(
+    $groups?.data?.itemGroups || []
+  )
 
   let activeItem: ItemListFieldsFragment | null = null
   let { theme } = getContext('theme')
@@ -64,15 +54,7 @@
     </button>
   </div>
 
-  <Select
-    on:select={(e) => {
-      activeGroupID.update((v) => +e.detail.value)
-    }}
-    {groupBy}
-    items={groupOptions}
-    value={activeGroupOption}
-    isClearable={false}
-  />
+  <Tree tree={groupsTree} />
 
   <main class="cards">
     <div class="cards-subwrap">
