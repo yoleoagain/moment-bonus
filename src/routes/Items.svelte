@@ -17,6 +17,10 @@
   import BackArrow from '../components/atoms/BackArrow.svelte'
 
   const allGroup = { name: 'Все товары', id: 0 }
+  const setActiveGroupId = (v: { id: number }) => {
+    console.log(v)
+    activeGroupID.set(+v.id)
+  }
 
   $: query = GetItems({
     variables: {
@@ -66,7 +70,11 @@
     </button>
   </div>
 
-  <TreeCMT tree={groupsTree} />
+  <TreeCMT
+    onClick={setActiveGroupId}
+    tree={groupsTree}
+    selectedID={$activeGroupID}
+  />
 
   <main class="cards">
     <div class="cards-subwrap">
