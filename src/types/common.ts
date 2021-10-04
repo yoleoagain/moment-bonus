@@ -7,7 +7,7 @@ export interface NumberHashMap {
 }
 
 export interface Tree<T>{
-  children: null | T[]
+  children: null | Tree<T>[]
   data: T
   parent: null | T
   depth: 0

@@ -1,19 +1,19 @@
 ﻿<script lang="ts">
   import type { Tree } from '../../types/common'
   import type { ItemGroups } from '../../codegen'
-  import { children } from 'svelte/internal'
 
   export let tree: Tree<ItemGroups>
+  export let onClick: (branch: Tree<ItemGroups>) => void = (tree) => {}
 </script>
 
-<ul class="tree">
-  {#if tree.children}
-    {#each tree.children as el}
+<ul on:click={() => onClick(tree)} class="tree">
+  {#each tree.children as el}
+    {#if tree.children}
       <svelte:self tree={el} />
-    {/each}
-  {:else}
-    <li>{tree.data.name}</li>
-  {/if}
+    {:else}
+      <li>{el.data.name}</li>
+    {/if}
+  {/each}
 </ul>
 
 <style>
