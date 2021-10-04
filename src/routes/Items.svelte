@@ -13,8 +13,11 @@
   import { activeGroupID } from '../stores/queries/groups'
   import { Wave } from 'svelte-loading-spinners'
   import { stratify } from 'd3-hierarchy'
+  import App from '../App.svelte'
+  import BackArrow from '../components/atoms/BackArrow.svelte'
 
-  const allGroup = { name: 'Все товары', id: '0', parent_group_id: 0 }
+  const allGroup = { name: 'Все товары', id: 0 }
+
   $: query = GetItems({
     variables: {
       sort: 'created_at:DESC',
@@ -22,18 +25,16 @@
     },
   })
   $: groups = GetGroups({})
-  $: groupsData = $groups?.data?.itemGroups || []
+  // Upollo return int ids as strings wtf? Unnessasary loop
+  $: groupsData = [...[allGroup], ...($groups?.data?.itemGroups || [])].map(
+    (g) => ({
+      ...g,
+      id: +g.id,
+    })
+  )
+  $: console.log('groupsTree', groupsData)
 
-  $: groupsTree =
-    groupsData.length > 0
-      ? stratify().parentId((d) => d.parent_group_id)(groupsData)
-      : ({
-          data: allGroup,
-          id: allGroup.id,
-          children: null,
-          depth: 0,
-          parent: null,
-        } as Tree<ItemGroupsFragment>)
+  $: groupsTree = stratify().parentId((d) => d.parent_group_id)(groupsData)
 
   let activeItem: ItemListFieldsFragment | null = null
   let { theme } = getContext('theme')

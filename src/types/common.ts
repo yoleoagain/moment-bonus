@@ -11,6 +11,6 @@ export interface Tree<T>{
   data: T
   parent: null | T
   depth: 0
-  id: string //TODO: REMOVE APOLLO ID BY STRINGS PROBLEM!!!
+  id: number //TODO: REMOVE APOLLO ID BY STRINGS PROBLEM!!!
 }
 
