@@ -10,7 +10,7 @@
   export let selectedID: number
   export let tree: Tree<ItemGroupsFragment>
   // HOW PASS THIS STUFF VIA PROPS!!!
-  // Why this not working via function props and bind prop value ?????????
+  // Why this not working via function props or bind prop value ?????????
   function handleClick() {
     activeGroupID.update((v) => Number(tree.id))
   } //: (branch: Tree<ItemGroupsFragment>) => void
