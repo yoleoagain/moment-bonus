@@ -8,7 +8,7 @@ export interface Tree<T>{
   children: null | Tree<T>[]
   data: T
   parent: null | T
-  depth: 0
+  depth: number
   id: number
 }
 
