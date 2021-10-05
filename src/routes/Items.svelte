@@ -13,13 +13,11 @@
   import { activeGroupID } from '../stores/queries/groups'
   import { Wave } from 'svelte-loading-spinners'
   import { stratify } from 'd3-hierarchy'
-  import App from '../App.svelte'
-  import BackArrow from '../components/atoms/BackArrow.svelte'
 
   const allGroup = { name: 'Все товары', id: 0 }
   const setActiveGroupId = (v: { id: number }) => {
     console.log(v)
-    activeGroupID.set(+v.id)
+    activeGroupID.set(v.id)
   }
 
   $: query = GetItems({
@@ -30,15 +28,13 @@
   })
   $: groups = GetGroups({})
   // Upollo return int ids as strings wtf? Unnessasary loop
-  $: groupsData = [...[allGroup], ...($groups?.data?.itemGroups || [])].map(
-    (g) => ({
-      ...g,
-      id: +g.id,
-    })
-  )
+  $: groupsData = [...[allGroup], ...($groups?.data?.itemGroups || [])].map((g) => ({
+    ...g,
+    id: +g.id,
+  }))
   $: console.log('groupsTree', groupsData)
 
-  $: groupsTree = stratify().parentId((d) => d.parent_group_id)(groupsData)
+  $: groupsTree = stratify<ItemGroupsFragment>().parentId((d) => d.parent_group_id)(groupsData)
 
   let activeItem: ItemListFieldsFragment | null = null
   let { theme } = getContext('theme')
@@ -58,31 +54,18 @@
 
 <div class="items-wrap is-flex-direction-column is-flex">
   <div class="is-flex-direction-row is-flex is-justify-content-center mb-3">
-    <input
-      type="text"
-      class="input search mr-2"
-      placeholder="Поиск"
-      bind:value={$search}
-      class:is-loading={$query.loading}
-    />
+    <input type="text" class="input search mr-2" placeholder="Поиск" bind:value={$search} class:is-loading={$query.loading} />
     <button class="button " on:click={createNewItem}>
       <i class="fas fa-plus" />
     </button>
   </div>
 
-  <TreeCMT
-    onClick={setActiveGroupId}
-    tree={groupsTree}
-    selectedID={$activeGroupID}
-  />
+  <TreeCMT onClick={setActiveGroupId} tree={groupsTree} selectedID={$activeGroupID} />
 
   <main class="cards">
     <div class="cards-subwrap">
       <div class="row">
-        <div
-          style="width: 100%;"
-          class="buttons is-flex align-items-end is-justify-content-end"
-        />
+        <div style="width: 100%;" class="buttons is-flex align-items-end is-justify-content-end" />
 
         {#if $query.loading}
           <Wave size="100" color={$theme.palette.highlitsColor} unit="px" />

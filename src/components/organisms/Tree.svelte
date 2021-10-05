@@ -10,20 +10,25 @@
   export let tree: Tree<ItemGroups>
   export let onClick: (branch: Tree<ItemGroups>) => void = (tree) => {}
   // HOW to handle click in recursive components? works only parrent... =) Zzz...
+
+  const ulStyle = `padding-left: calc(${$theme.paddings.quarter} * ${tree.depth + 1});`
+  const liStyle = `background: ${Number(selectedID) === Number(tree.id) ? $theme.palette.mainAccentBackground : ''}`
 </script>
 
-{#if tree.children}
-  <ul
-    style={`padding-left: calc(${$theme.paddings.quarter} * ${
-      tree.depth + 1
-    });${
-      Number(selectedID) === Number(tree.id)
-        ? `background: ${$theme.palette.mainAccentBackground};`
-        : ''
-    }`}
-    class="tree"
+{#if +tree.id === 0}
+  <span
+    on:click={() => {
+      console.log('tree', tree)
+      onClick(tree)
+    }}
+    style={liStyle}
   >
-    <li>{tree.data.name}</li>
+    {tree.data.name}</span
+  >
+{/if}
+
+{#if tree.children}
+  <ul style={ulStyle} class="tree">
     {#if tree.children}
       {#each tree.children as el}
         <svelte:self tree={el} />
@@ -31,7 +36,13 @@
     {/if}
   </ul>
 {:else}
-  <li>{tree.data.name}</li>
+  <li
+    on:click={() => {
+      console.log('tree', tree)
+      onClick(tree)
+    }}
+    style={liStyle}>{tree.data.name}</li
+  >
 {/if}
 
 <style>
