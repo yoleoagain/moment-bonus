@@ -16,6 +16,7 @@ export const where = writable<ItemsWhere>({ name_contains: get(search) })
 
 search.subscribe(v => { where.set({...get(where), name_contains: v }) })
 activeGroupID.subscribe(v => {
+    console.log('v', v)
     let newWhere = {...get(where)}
 
     v ? newWhere.item_group = { id: Number(v) } : delete newWhere.item_group

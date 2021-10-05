@@ -15,10 +15,7 @@
   import { stratify } from 'd3-hierarchy'
 
   const allGroup = { name: 'Все товары', id: 0 }
-  const setActiveGroupId = (v: { id: number }) => {
-    console.log(v)
-    activeGroupID.set(v.id)
-  }
+  $: console.log('$activeGroupID', $activeGroupID)
 
   $: query = GetItems({
     variables: {
@@ -60,7 +57,7 @@
     </button>
   </div>
 
-  <TreeCMT onClick={setActiveGroupId} tree={groupsTree} selectedID={$activeGroupID} />
+  <TreeCMT bind:selectedID={$activeGroupID} tree={groupsTree} />
 
   <main class="cards">
     <div class="cards-subwrap">
