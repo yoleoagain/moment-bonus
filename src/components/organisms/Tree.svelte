@@ -7,35 +7,47 @@
 
   let { theme } = getContext<ThemeContext>('theme')
 
-  export let selectedID: number
   export let tree: Tree<ItemGroupsFragment>
+
   // HOW PASS THIS STUFF VIA PROPS!!!
-  // Why this not working via function props or bind prop value ?????????
+  // TODO: Why this not working via function props or bind prop value ?????????
+  // TODO: Request products after active group change?
   function handleClick() {
     activeGroupID.update((v) => Number(tree.id))
   } //: (branch: Tree<ItemGroupsFragment>) => void
 
-  const ulStyle = `padding-left: calc(${$theme.paddings.quarter} * ${tree.depth + 1});`
-  const liStyle = `background: ${Number(selectedID) === Number(tree.id) ? $theme.palette.mainAccentBackground : ''}`
+  const treeItemSTYLE = `padding-left: calc(${$theme.paddings.half} * ${tree.depth + 1});`
 </script>
 
 {#if +tree.id === 0}
-  <span on:click={() => handleClick()} style={liStyle}> {tree.data.name}</span>
+  <span style={treeItemSTYLE} class="tree-item" class:active-tree={Number($activeGroupID) === Number(tree.id)} on:click={() => handleClick()}>
+    {tree.data.name}</span
+  >
 {/if}
 
 {#if tree.children}
-  <ul style={ulStyle} class="tree">
+  <ul class="tree">
     {#if tree.children}
       {#each tree.children as el}
         <svelte:self tree={el} />
       {/each}
     {/if}
   </ul>
-{:else}
-  <li on:click={handleClick} style={liStyle}>{tree.data.name}</li>
+{:else if +tree.id !== 0}
+  <li style={treeItemSTYLE} class="tree-item" class:active-tree={Number($activeGroupID) === Number(tree.id)} on:click={handleClick}
+    >{tree.data.name}</li
+  >
 {/if}
 
 <style>
+  .tree-item {
+    padding: var(--theme-gap-half);
+    border: 1px solid #555;
+    border-bottom: none;
+  }
+  .active-tree {
+    background-color: var(--theme-mainAccentBackground);
+  }
   .tree {
     display: flex;
     flex-direction: column;
