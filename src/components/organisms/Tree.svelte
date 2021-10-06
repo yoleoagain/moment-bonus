@@ -12,9 +12,10 @@
   // HOW PASS THIS STUFF VIA PROPS!!!
   // TODO: Why this not working via function props or bind prop value ?????????
   // TODO: Request products after active group change?
+  // TODO: Hide/expand groups?
   function handleClick() {
     activeGroupID.update((v) => Number(tree.id))
-  } //: (branch: Tree<ItemGroupsFragment>) => void
+  }
 
   const treeItemSTYLE = `padding-left: calc(${$theme.paddings.half} * ${tree.depth + 1});`
 </script>
