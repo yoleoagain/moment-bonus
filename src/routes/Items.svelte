@@ -1,21 +1,17 @@
 <script lang="ts">
-  import type { ItemListFieldsFragment, ItemGroupsFragment } from 'src/codegen'
-  import type { Tree } from '../types/common'
+  import type { ItemListFieldsFragment } from 'src/codegen'
   import Item from '../components/atoms/Item.svelte'
   import Modal from '../components/templates/Modal.svelte'
   import ItemEditForm from '../components/organisms/ItemEditForm.svelte'
-  import TreeCMT from '../components/organisms/Tree.svelte'
   import { editItemStore, where } from '../stores/queries/items'
   import { baseItem } from '../stores/queries/items'
   import { getContext } from 'svelte'
-  import { GetItems, GetGroups } from 'src/codegen'
+  import { GetItems } from 'src/codegen'
   import { search } from '../stores/queries/items'
-  import { activeGroupID } from '../stores/queries/groups'
   import { Wave } from 'svelte-loading-spinners'
-  import { stratify } from 'd3-hierarchy'
-
-  const allGroup = { name: 'Все товары', id: 0 }
-  $: console.log('$activeGroupID', $activeGroupID)
+  import AppLayout from '../components/templates/AppLayout.svelte'
+  import ItemGroups from '../components/organisms/ItemGroups.svelte'
+  import ColumnCenter from '../components/atoms/ColumnCenter.svelte'
 
   $: query = GetItems({
     variables: {
@@ -23,15 +19,6 @@
       where: $where,
     },
   })
-  $: groups = GetGroups({})
-  // Upollo return int ids as strings wtf? Unnessasary loop
-  $: groupsData = [...[allGroup], ...($groups?.data?.itemGroups || [])].map((g) => ({
-    ...g,
-    id: +g.id,
-  }))
-  $: console.log('groupsTree', groupsData)
-
-  $: groupsTree = stratify<ItemGroupsFragment>().parentId((d) => d.parent_group_id)(groupsData)
 
   let activeItem: ItemListFieldsFragment | null = null
   let { theme } = getContext('theme')
@@ -49,43 +36,44 @@
   </Modal>
 {/if}
 
-<div class="items-wrap is-flex-direction-column is-flex">
-  <div class="is-flex-direction-row is-flex is-justify-content-center mb-3">
-    <input type="text" class="input search mr-2" placeholder="Поиск" bind:value={$search} class:is-loading={$query.loading} />
-    <button class="button " on:click={createNewItem}>
-      <i class="fas fa-plus" />
-    </button>
+<AppLayout>
+  <div class="field has-addons" slot="tools">
+    <p style="width: 100%;" class="control"
+      ><input
+        type="text"
+        style="width: 100%;"
+        class="input search mr-2"
+        placeholder="Поиск"
+        bind:value={$search}
+        class:is-loading={$query.loading}
+      /></p
+    >
+    <p class="control">
+      <button class="button " on:click={createNewItem}>
+        <i class="fas fa-plus" />
+      </button>
+    </p>
   </div>
-
-  <TreeCMT bind:selectedID={$activeGroupID} tree={groupsTree} />
-
-  <main class="cards">
+  <svelte:fragment slot="aside"><ItemGroups /></svelte:fragment>
+  <svelte:fragment slot="main">
     <div class="cards-subwrap">
-      <div class="row">
-        <div style="width: 100%;" class="buttons is-flex align-items-end is-justify-content-end" />
-
-        {#if $query.loading}
-          <Wave size="100" color={$theme.palette.highlitsColor} unit="px" />
-        {/if}
-
+      {#if $query.loading}
+        <ColumnCenter>
+          <Wave size="30" color={$theme.palette.highlitsColor} unit="px" />
+        </ColumnCenter>
+      {:else}
         <div class="products-wrap">
           {#each $query.data?.items || [] as item}<Item {item} />{/each}
         </div>
-      </div>
+      {/if}
     </div>
-  </main>
-</div>
+  </svelte:fragment>
+</AppLayout>
 
 <style>
   .products-wrap {
-    height: calc(100vh - 210px);
+    height: 100%;
     overflow-y: auto;
-  }
-  .items-wrap {
-    padding: var(--theme-gap-main);
-  }
-  .cards {
-    display: flex;
   }
   .cards-subwrap {
     width: 100%;

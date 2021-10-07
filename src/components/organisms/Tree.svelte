@@ -21,7 +21,7 @@
 </script>
 
 {#if +tree.id === 0}
-  <span style={treeItemSTYLE} class="tree-item" class:active-tree={Number($activeGroupID) === Number(tree.id)} on:click={() => handleClick()}>
+  <span class="tree-item" style={treeItemSTYLE} class:active-tree={Number($activeGroupID) === Number(tree.id)} on:click={() => handleClick()}>
     {tree.data.name}</span
   >
 {/if}
@@ -43,8 +43,10 @@
 <style>
   .tree-item {
     padding: var(--theme-gap-half);
-    border: 1px solid #555;
+    border: 1px solid;
+    border: var(--theme-hoveredBackground);
     border-bottom: none;
+    cursor: pointer;
   }
   .active-tree {
     background-color: var(--theme-mainAccentBackground);
