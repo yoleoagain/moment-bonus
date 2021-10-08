@@ -1,11 +1,9 @@
 <script lang="ts">
   import type { ItemListFieldsFragment } from '../../codegen'
-  import { fetchItems, search } from '../../stores/queries/items'
+  import { fetchItems } from '../../stores/queries/items'
   import { activeGroupID } from '../../stores/queries/groups'
   import { addItem, updateItem, deleteItem, GetPriceTypes } from 'src/codegen'
   import { editItemStore } from '../../stores/queries/items'
-  import Select from 'svelte-select'
-  import { onMount } from 'svelte'
 
   function remove(e) {
     e.stopPropagation()
@@ -16,8 +14,8 @@
       }).then((res) => editItemStore.set(null))
     }
   }
-  $: priceTypes = GetPriceTypes({})
 
+  $: priceTypes = GetPriceTypes({})
   $: refetchQueries = fetchItems()
 
   let item: ItemListFieldsFragment = null
@@ -28,7 +26,8 @@
     item = { ...value }
   })
 
-  function close() {
+  function close(e) {
+    e.preventDefault()
     editItemStore.set(null)
   }
 
