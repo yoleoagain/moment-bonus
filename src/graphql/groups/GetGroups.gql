@@ -1,7 +1,11 @@
-﻿query GetGroups {
+﻿fragment ItemGroups on ItemGroups {
+  id
+  name
+  parent_group_id
+}
+
+query GetGroups {
   itemGroups {
-    id
-    name
-    parent_group_id
+    ...ItemGroups
   }
 }

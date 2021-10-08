@@ -20,9 +20,12 @@
 </Theme>
 
 <style>
+  :global(html),
+  :global(span) {
+    color: var(--theme-primaryFont);
+  }
   :global(html) {
     background-color: var(--theme-primaryBackground);
-    color: var(--theme-primaryFont);
   }
   :global(::placeholder) {
     color: var(--theme-primaryFont);
@@ -69,5 +72,9 @@
   }
   :global(.listGroupTitle) {
     display: none;
+  }
+
+  :global(ul) {
+    color: var(--theme-primaryFont) !important;
   }
 </style>

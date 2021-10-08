@@ -5,7 +5,7 @@
     background: var(--theme-primaryBackground);
     height: 100vh;
     position: absolute;
-    z-index: 1;
+    z-index: 2;
     left: 0;
     top: 0;
     width: 100%;

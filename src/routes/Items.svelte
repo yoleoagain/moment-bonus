@@ -6,11 +6,12 @@
   import { editItemStore, where } from '../stores/queries/items'
   import { baseItem } from '../stores/queries/items'
   import { getContext } from 'svelte'
-  import { GetItems, GetGroups } from 'src/codegen'
+  import { GetItems } from 'src/codegen'
   import { search } from '../stores/queries/items'
-  import { activeGroupID } from '../stores/queries/groups'
   import { Wave } from 'svelte-loading-spinners'
-  import Select from 'svelte-select'
+  import AppLayout from '../components/templates/AppLayout.svelte'
+  import ItemGroups from '../components/organisms/ItemGroups.svelte'
+  import ColumnCenter from '../components/atoms/ColumnCenter.svelte'
 
   $: query = GetItems({
     variables: {
@@ -18,21 +19,6 @@
       where: $where,
     },
   })
-  $: groups = GetGroups({})
-  $: groupOptions = [
-    ...[
-      { value: 0, label: 'Все товары' }, // Show all products
-      ...($groups?.data?.itemGroups || []).map((g) => ({
-        value: +g.id, // TODO: Find why Int fields returns as strings
-        label: g.name, // And Select supports only 1 lvl nesting :(
-        group: +(g?.parent_group_id || 0),
-      })),
-    ],
-  ]
-  $: activeGroupOption =
-    groupOptions.find((g) => +g.value === $activeGroupID) || groupOptions[0]
-
-  const groupBy = (itm) => itm.group
 
   let activeItem: ItemListFieldsFragment | null = null
   let { theme } = getContext('theme')
@@ -50,60 +36,44 @@
   </Modal>
 {/if}
 
-<div class="items-wrap is-flex-direction-column is-flex">
-  <div class="is-flex-direction-row is-flex is-justify-content-center mb-3">
-    <input
-      type="text"
-      class="input search mr-2"
-      placeholder="Поиск"
-      bind:value={$search}
-      class:is-loading={$query.loading}
-    />
-    <button class="button " on:click={createNewItem}>
-      <i class="fas fa-plus" />
-    </button>
+<AppLayout>
+  <div class="field has-addons" slot="tools">
+    <p style="width: 100%;" class="control"
+      ><input
+        type="text"
+        style="width: 100%;"
+        class="input search mr-2"
+        placeholder="Поиск"
+        bind:value={$search}
+        class:is-loading={$query.loading}
+      /></p
+    >
+    <p class="control">
+      <button class="button " on:click={createNewItem}>
+        <i class="fas fa-plus" />
+      </button>
+    </p>
   </div>
-
-  <Select
-    on:select={(e) => {
-      activeGroupID.update((v) => +e.detail.value)
-    }}
-    {groupBy}
-    items={groupOptions}
-    value={activeGroupOption}
-    isClearable={false}
-  />
-
-  <main class="cards">
+  <svelte:fragment slot="aside"><ItemGroups /></svelte:fragment>
+  <svelte:fragment slot="main">
     <div class="cards-subwrap">
-      <div class="row">
-        <div
-          style="width: 100%;"
-          class="buttons is-flex align-items-end is-justify-content-end"
-        />
-
-        {#if $query.loading}
-          <Wave size="100" color={$theme.palette.highlitsColor} unit="px" />
-        {/if}
-
+      {#if $query.loading}
+        <ColumnCenter>
+          <Wave size="30" color={$theme.palette.highlitsColor} unit="px" />
+        </ColumnCenter>
+      {:else}
         <div class="products-wrap">
           {#each $query.data?.items || [] as item}<Item {item} />{/each}
         </div>
-      </div>
+      {/if}
     </div>
-  </main>
-</div>
+  </svelte:fragment>
+</AppLayout>
 
 <style>
   .products-wrap {
-    height: calc(100vh - 210px);
+    height: 100%;
     overflow-y: auto;
-  }
-  .items-wrap {
-    padding: var(--theme-gap-main);
-  }
-  .cards {
-    display: flex;
   }
   .cards-subwrap {
     width: 100%;
