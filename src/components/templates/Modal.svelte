@@ -31,10 +31,12 @@
     border-radius: 8px;
     border: 2px solid var(--theme-borderColor);
   }
-  @media only screen and (min-width: 767px) {
+  @media only screen and (max-width: 600px) {
     .modal-content {
       max-height: 100vh;
       max-width: 100vw;
+      min-height: 100vh;
+      min-height: 100%;
     }
   }
 </style>

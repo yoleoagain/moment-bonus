@@ -32,9 +32,13 @@
     display: flex;
     margin-left: var(--theme-gap-main);
   }
-  /* @media screen and (min-width: 600px) {
+  @media only screen and (max-width: 600px) {
     .app-layout__main {
       flex-direction: column;
     }
-  } */
+    .app-layout_content {
+      margin-left: 0;
+      margin-top: var(--theme-gap-main);
+    }
+  }
 </style>
