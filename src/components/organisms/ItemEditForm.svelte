@@ -63,38 +63,21 @@
 
 <form class="form p-2">
   <div class="field">
+    <h3 class="item-edit_form__header">{item.name + ':'}</h3>
+  </div>
+  <div class="field">
     <label for="name" class="label">Name:</label>
     <div class="control">
-      <input
-        bind:value={item.name}
-        name="name"
-        class="input"
-        type="text"
-        placeholder="Введите имя"
-      />
+      <input bind:value={item.name} name="name" class="input" type="text" placeholder="Введите имя" />
     </div>
   </div>
   <label for="name" class="label">Цена и тип цены:</label>
   <div class="field has-addons">
     <p class="control">
-      <input
-        style=""
-        bind:value={price}
-        name="name"
-        class="input"
-        placeholder="0.00"
-        type="text"
-        inputmode="numeric"
-      />
+      <input style="" bind:value={price} name="name" class="input" placeholder="0.00" type="text" inputmode="numeric" />
     </p>
     <p class="control">
-      <input
-        style="max-width: 60px;"
-        class="input"
-        maxlength="3"
-        value="RUB"
-        disabled
-      />
+      <input style="max-width: 60px;" class="input" maxlength="3" value="RUB" disabled />
     </p>
     <p class="control">
       <span class="select">
@@ -107,15 +90,9 @@
     </p>
   </div>
   <div class="field">
-    <label for="name" class="label">Description:</label>
+    <label for="name" class="label">Описание:</label>
     <div class="control">
-      <textarea
-        bind:value={item.description}
-        name="description"
-        class="textarea"
-        type="text"
-        placeholder="Text input"
-      />
+      <textarea bind:value={item.description} name="description" class="textarea" type="text" placeholder="Text input" />
     </div>
   </div>
   <!-- <div class="field">
@@ -143,3 +120,9 @@
     </div>
   </div>
 </form>
+
+<style>
+  .item-edit_form__header {
+    text-transform: capitalize;
+  }
+</style>

@@ -21,8 +21,16 @@
 
 <style>
   :global(html),
+  :global(h3),
+  :global(h2),
+  :global(h1),
   :global(span) {
     color: var(--theme-primaryFont);
+  }
+  :global(h3),
+  :global(h2),
+  :global(h1) {
+    font-weight: 600;
   }
   :global(html) {
     background-color: var(--theme-primaryBackground);
