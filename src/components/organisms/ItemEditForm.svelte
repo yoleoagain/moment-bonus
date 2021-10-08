@@ -23,10 +23,12 @@
   let error = ''
 
   editItemStore.subscribe((value) => {
-    item = { ...value }
+    if (value !== null) {
+      item = { ...value }
+    }
   })
 
-  function close(e) {
+  function close(e: Event | undefined) {
     if (e) {
       e.preventDefault()
     }
