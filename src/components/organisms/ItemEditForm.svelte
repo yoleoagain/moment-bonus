@@ -27,7 +27,10 @@
   })
 
   function close(e) {
-    e.preventDefault()
+    if (e) {
+      e.preventDefault()
+    }
+    //TODO: Place this ontransistionend event
     editItemStore.set(null)
   }
 
