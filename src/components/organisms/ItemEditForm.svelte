@@ -66,7 +66,7 @@
     <h3 class="item-edit_form__header">{item.name + ':'}</h3>
   </div>
   <div class="field">
-    <label for="name" class="label">Name:</label>
+    <label for="name" class="label">Имя:</label>
     <div class="control">
       <input bind:value={item.name} name="name" class="input" type="text" placeholder="Введите имя" />
     </div>
