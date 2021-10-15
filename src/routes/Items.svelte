@@ -38,16 +38,9 @@
 
 <AppLayout>
   <div class="field has-addons" slot="tools">
-    <p style="width: 100%;" class="control"
-      ><input
-        type="text"
-        style="width: 100%;"
-        class="input search mr-2"
-        placeholder="Поиск"
-        bind:value={$search}
-        class:is-loading={$query.loading}
-      /></p
-    >
+    <p style="width: 100%;" class="control">
+      <input type="text" style="width: 100%;" class="input search mr-2" placeholder="Поиск" bind:value={$search} class:is-loading={$query.loading} />
+    </p>
     <p class="control">
       <button class="button " on:click={createNewItem}>
         <i class="fas fa-plus" />

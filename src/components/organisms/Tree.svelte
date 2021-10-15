@@ -20,11 +20,9 @@
   const treeItemSTYLE = `padding-left: calc(${$theme.paddings.half} * ${tree.depth + 1});`
 </script>
 
-{#if +tree.id === 0}
-  <span class="tree-item" style={treeItemSTYLE} class:active-tree={Number($activeGroupID) === Number(tree.id)} on:click={() => handleClick()}>
-    {tree.data.name}</span
-  >
-{/if}
+<span class="tree-item" style={treeItemSTYLE} class:active-tree={Number($activeGroupID) === Number(tree.id)} on:click={() => handleClick()}>
+  {tree.data.name}
+</span>
 
 {#if tree.children}
   <ul class="tree">
@@ -34,10 +32,6 @@
       {/each}
     {/if}
   </ul>
-{:else if +tree.id !== 0}
-  <li style={treeItemSTYLE} class="tree-item" class:active-tree={Number($activeGroupID) === Number(tree.id)} on:click={handleClick}
-    >{tree.data.name}</li
-  >
 {/if}
 
 <style>
