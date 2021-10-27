@@ -8,10 +8,9 @@
   import { getContext } from 'svelte'
   import { GetItems } from 'src/codegen'
   import { search } from '../stores/queries/items'
-  import { Wave } from 'svelte-loading-spinners'
   import AppLayout from '../components/templates/AppLayout.svelte'
   import ItemGroups from '../components/organisms/ItemGroups.svelte'
-  import ColumnCenter from '../components/atoms/ColumnCenter.svelte'
+  import Loader from '../components/molecules/Loader.svelte'
 
   $: query = GetItems({
     variables: {
@@ -21,7 +20,6 @@
   })
 
   let activeItem: ItemListFieldsFragment | null = null
-  let { theme } = getContext('theme')
 
   editItemStore.subscribe((value) => {
     activeItem = value
@@ -51,9 +49,7 @@
   <svelte:fragment slot="main">
     <div class="cards-subwrap">
       {#if $query.loading}
-        <ColumnCenter>
-          <Wave size="30" color={$theme.palette.highlitsColor} unit="px" />
-        </ColumnCenter>
+        <Loader />
       {:else}
         <div class="products-wrap">
           {#each $query.data?.items || [] as item}<Item {item} />{/each}

@@ -11,9 +11,9 @@ fragment ItemListFields on Items {
   prices{
     price
   }
-  item_group{
-    id
-  }
+  # item_group{
+  #   id
+  # }
 }
 
 query GetItems($sort: String, $where: JSON!) {

@@ -1748,10 +1748,7 @@ export type ItemListFieldsFragment = (
   )>, prices?: Maybe<Array<Maybe<(
     { __typename?: 'Prices' }
     & Pick<Prices, 'price'>
-  )>>>, item_group?: Maybe<(
-    { __typename?: 'ItemGroups' }
-    & Pick<ItemGroups, 'id'>
-  )> }
+  )>>> }
 );
 
 export type GetItemsQueryVariables = Exact<{
@@ -1818,9 +1815,6 @@ export const ItemListFieldsFragmentDoc = gql`
   }
   prices {
     price
-  }
-  item_group {
-    id
   }
 }
     `;
