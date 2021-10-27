@@ -7,7 +7,7 @@ import { activeGroupID } from './groups'
 
 type ItemsWhere = {
     name_contains: string
-    item_group?: number//{ id: number }
+    item_group?: { id: number }
 } | null
 
 export const search = writable('')
@@ -19,7 +19,7 @@ activeGroupID.subscribe(v => {
     console.log('v', v)
     let newWhere = {...get(where)}
 
-    v ? newWhere.item_group = Number(v) : delete newWhere.item_group
+    v ? newWhere.item_group = { id: Number(v) } : delete newWhere.item_group
 
     where.set(newWhere) 
 })
